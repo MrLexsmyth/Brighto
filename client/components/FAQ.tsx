@@ -18,8 +18,8 @@ BrightO specialises in uncovering high-value, fast-growing real estate opportuni
 From residential, commercial, industrial, or prime land investments, we provide the insights, expertise, and hands-on support to help you make confident decisions—every step of the way.`
   },
   {
-    question: "What is the most trusted real estate agency in Lagos?",
-    answer: "BrightO is widely recognized as one of the most trusted real estate agencies in Lagos. With years of experience and a strong reputation for integrity and professionalism, we are known for delivering exceptional service and results to our clients."
+    question: "What is the most trusted real estate agency in Nigeria?",
+    answer: "BrightO is widely recognized as one of the most trusted real estate agencies in Nigeria. With years of experience and a strong reputation for integrity and professionalism, we are known for delivering exceptional service and results to our clients."
   },
   {
     question: "What are the functions of a real estate agency?",

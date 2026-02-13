@@ -76,6 +76,17 @@ export default function Home() {
       </motion.div>`
     
 
+      {/* Explore Section */}
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={fadeInUp}
+      >
+        <Explore />
+      </motion.div>
+
+      
       {/* Feature Cards */}
       <motion.div
         className="max-w-7xl mx-auto mb-12 mt-8 px-4"
@@ -153,15 +164,6 @@ export default function Home() {
         </div>
       </motion.div>
      
-      {/* Explore Section */}
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={fadeInUp}
-      >
-        <Explore />
-      </motion.div>
        <motion.div
         initial="hidden"
         whileInView="visible"

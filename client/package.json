@@ -10,6 +10,7 @@
     "dev:server": "nodemon server/index.ts"
   },
   "dependencies": {
+    "@floating-ui/dom": "^1.7.5",
     "@lordicon/element": "^1.11.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@tiptap/extension-image": "^3.18.0",

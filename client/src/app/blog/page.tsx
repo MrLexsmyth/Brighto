@@ -34,11 +34,13 @@ export default async function BlogPage() {
     );
   }
 
-  // Featured last blog
-  const lastBlog = blogs[blogs.length - 1];
+  // Featured first blog
+  const firstBlog = blogs[0];
 
-  // First 20 blogs excluding the last one
-  const first20Blogs = blogs.slice(0, blogs.length ).slice(0, 20);
+
+  // First 20 blogs excluding the first one
+ const first20Blogs = blogs.slice(0, 20).slice(1);
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -50,17 +52,17 @@ export default async function BlogPage() {
         </p>
       </div>
 
-      {/* Featured Last Blog */}
+      {/* Featured First Blog */}
       <div className="mb-16">
         <Link
-          href={`/blog/view/${lastBlog.slug}`}
+          href={`/blog/view/${firstBlog.slug}`}
           className="flex flex-col md:flex-row gap-8 bg-gradient-to-br from-blue-50 to-indigo-50 hover:shadow-2xl transition-all duration-300 p-8 rounded-xl border border-blue-100"
         >
-          {lastBlog.images?.[0] && (
+          {firstBlog.images?.[0] && (
             <div className="flex-shrink-0 md:w-1/2">
               <Image
-                src={lastBlog.images[0]}
-                alt={lastBlog.title}
+                src={firstBlog.images[0]}
+                alt={firstBlog.title}
                 width={600}
                 height={400}
                 className="rounded-lg object-cover w-full h-64 md:h-80"
@@ -76,18 +78,18 @@ export default async function BlogPage() {
               </span>
             </div>
             <h2 className="text-3xl font-bold mb-4 hover:text-[#004274] transition-colors">
-              {lastBlog.title}
+              {firstBlog.title}
             </h2>
             <p className="text-gray-500 text-sm mb-4 flex items-center gap-2">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              {new Date(lastBlog.createdAt).toDateString()}
+              {new Date(firstBlog.createdAt).toDateString()}
             </p>
 
             <p className="text-gray-700 leading-relaxed mb-6">
-              <span className="md:hidden">{renderSnippet(lastBlog.content, 25)}</span>
-              <span className="hidden md:block">{renderSnippet(lastBlog.content, 25)}</span>
+              <span className="md:hidden">{renderSnippet(firstBlog.content, 25)}</span>
+              <span className="hidden md:block">{renderSnippet(firstBlog.content, 25)}</span>
             </p>
 
             <div className="flex items-center text-[#004274] font-semibold">

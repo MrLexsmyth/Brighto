@@ -26,16 +26,18 @@ export const registerAdmin = asyncHandler(async (req: Request, res: Response) =>
 
   res.cookie("adminToken", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: true, // Always true in production (Vercel uses HTTPS)
+    sameSite: "none", // CRITICAL: Changed from "strict" to "none" for cross-origin
     maxAge: 7 * 24 * 60 * 60 * 1000,
+    domain: process.env.COOKIE_DOMAIN, // e.g., ".yourdomain.com" if both on same domain
+    path: "/",
   });
 
   res.status(201).json({
     _id: admin._id,
     name: admin.name,
     email: admin.email,
-     token,
+    token,
   });
 });
 
@@ -57,16 +59,18 @@ export const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
 
   res.cookie("adminToken", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: true, // Always true in production
+    sameSite: "none", // CRITICAL: Changed from "strict" to "none" for cross-origin
     maxAge: 7 * 24 * 60 * 60 * 1000,
+    domain: process.env.COOKIE_DOMAIN, // Optional: only if using same root domain
+    path: "/",
   });
 
   res.json({
     _id: admin._id,
     name: admin.name,
     email: admin.email,
-     token,
+    token,
   });
 });
 
@@ -77,7 +81,11 @@ export const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
 export const logoutAdmin = (_req: Request, res: Response) => {
   res.cookie("adminToken", "", {
     httpOnly: true,
+    secure: true,
+    sameSite: "none",
     expires: new Date(0),
+    domain: process.env.COOKIE_DOMAIN,
+    path: "/",
   });
 
   res.json({ message: "Admin logged out" });

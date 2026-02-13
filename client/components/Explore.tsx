@@ -173,7 +173,7 @@ useEffect(() => {
             lands, studio, and more...
           </p>
 
-<Link href="/estate/listings">
+<Link href="/listings">
 <button className="relative overflow-hidden group bg-[#00aeff] text-white px-8 py-3 mt-3 rounded-md font-semibold border border-[#00aeff] transition duration-600">
    <span className="relative z-10">View All Property</span>
   <span className="absolute inset-0 bg-darkblue scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
