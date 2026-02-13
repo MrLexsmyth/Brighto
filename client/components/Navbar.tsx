@@ -26,7 +26,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="font-jakarta w-full bg-darkblue dark:bg-gray-900 text-white shadow-md fixed top-0 z-50">
+    <nav className="font-jakarta w-full bg-white dark:bg-gray-900 text-darkblue shadow-md fixed top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link href="/estate" className="flex items-center gap-2">

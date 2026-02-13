@@ -16,11 +16,21 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Bright",
   description: "Find your next home with Bright",
-  metadataBase: new URL("http://localhost:3000"), 
+  metadataBase: new URL("https://brighto.vercel.app"),
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png" },
+    ],
+  },
   openGraph: {
     title: "BrightO",
     description: "Find your next home with Bright",
-    url: "http://localhost:3000",
+    url: "https://brighto.vercel.app", 
     siteName: "BrightO",
     images: [
       {
@@ -49,6 +59,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={poppins.className}>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body>
         <Script src="https://cdn.lordicon.com/lordicon.js" strategy="beforeInteractive" />
         <Navbar  />
