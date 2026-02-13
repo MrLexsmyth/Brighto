@@ -40,8 +40,8 @@ export default async function BlogPage() {
   const firstBlog = blogs[0];
 
 
-  // First 20 blogs excluding the first one
- const first20Blogs = blogs.slice(0, 20).slice(1);
+  // First 10 blogs excluding the first one
+ const first20Blogs = blogs.slice(0, 10).slice(1);
 
 
   return (
@@ -111,7 +111,7 @@ export default async function BlogPage() {
       </div>
 
     
-{/* First 20 Blogs Grid */}
+{/* First 10 Blogs Grid */}
 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
   {first20Blogs.map((blog) => (
     <Link
