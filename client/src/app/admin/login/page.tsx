@@ -7,7 +7,7 @@ import Image from "next/image";
 
 import api from "../../../../utils/axios";
 
-export const dynamic = 'force-dynamic';
+
 
 interface ErrorResponse {
   message: string;

@@ -7,7 +7,7 @@ import axios from '../../../utils/axios'
 import { motion } from 'framer-motion'
 import { Search, SlidersHorizontal, MapPin, Bed, Home, Ruler, Bath } from 'lucide-react'
 
-export const dynamic = 'force-dynamic';
+
 
 interface Property {
   _id: string

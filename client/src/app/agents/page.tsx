@@ -1,5 +1,8 @@
 "use client";
 
+
+
+
 import { useEffect, useState } from "react";
 import axios from "../../../utils/axios";
 import Image from "next/image";
@@ -7,8 +10,6 @@ import Link from "next/link";
 import { Mail, Phone, Building2, MessageCircle} from "lucide-react";
 import { motion } from "framer-motion";
 
-
-export const dynamic = 'force-dynamic';
 
 interface Agent {
   _id: string;

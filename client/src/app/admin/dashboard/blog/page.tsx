@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "../../../../../utils/axios"; // adjust path if needed
 import Link from "next/link";
 
-export const dynamic = 'force-dynamic';
+
 
 interface Blog {
   _id: string;
