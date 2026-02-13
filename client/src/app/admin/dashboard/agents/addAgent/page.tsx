@@ -16,8 +16,8 @@ interface AgentForm {
   bio?: string;
   phone?: string;
   website?: string;
-  photo?: File; // <-- change from string to File
-  serviceAreas?: string[]; // comma-separated in input
+  photo?: File; 
+  serviceAreas?: string[]; 
   specialties?: string[];
   propertyTypes?: string[];
 }
@@ -88,7 +88,7 @@ export default function AddAgent() {
       if (form.serviceAreas) formData.append("serviceAreas", form.serviceAreas.join(","));
       if (form.specialties) formData.append("specialties", form.specialties.join(","));
       if (form.propertyTypes) formData.append("propertyTypes", JSON.stringify(form.propertyTypes));
-      if (form.photo) formData.append("photo", form.photo); // <-- single file
+      if (form.photo) formData.append("photo", form.photo); 
 
       await axios.post("/admin/agents", formData, {
         headers: {
