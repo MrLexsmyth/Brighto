@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import axios from '../../../../utils/axios'
+import axios from '../../../utils/axios'
 import { motion } from 'framer-motion'
 import { Search, SlidersHorizontal, MapPin, Bed, Home, Ruler, Bath } from 'lucide-react'
 
@@ -53,7 +53,7 @@ export default function ListingsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+      <div className=" mt-8 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
         <div className="mx-auto max-w-7xl px-4 py-20">
           <div className="flex items-center justify-center">
             <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-red-600"></div>
@@ -146,7 +146,7 @@ export default function ListingsPage() {
                 whileHover={{ y: -8 }}
                 className="group overflow-hidden rounded-2xl bg-white shadow-lg transition-all hover:shadow-2xl dark:bg-gray-800"
               >
-                <Link href={`/estate/listings/${property.slug}`} className="block">
+                <Link href={`/listings/${property.slug}`} className="block">
                   {/* Image */}
                   <div className="relative h-64 w-full overflow-hidden">
                     <Image

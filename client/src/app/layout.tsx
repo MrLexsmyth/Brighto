@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Script from 'next/script';
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 
@@ -49,10 +51,11 @@ export default function RootLayout({
     <html lang="en" className={poppins.className}>
       <body>
         <Script src="https://cdn.lordicon.com/lordicon.js" strategy="beforeInteractive" />
-        
-        <main>
+        <Navbar  />
+        <main className="mt-16">
           {children}
         </main>
+        <Footer />
       </body>
     </html>
   );

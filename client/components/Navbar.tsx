@@ -93,12 +93,12 @@ const NavLinks = ({
   const hoverClass = 'hover:text-[#00aeff] dark:hover:text-[#00aeff] transition';
 
   const links = [
-    { href: '/estate', label: 'Home' },
-    { href: '/estate/listings', label: 'Listings' },
-    { href: '/estate/agents', label: 'Our Agents' },
-    { href: '/estate/about', label: 'About' },
-    { href: '/estate/contact', label: 'Contact Us' },
-    { href: '/estate/blog', label: 'Blog' },
+    { href: '/', label: 'Home' },
+    { href: '/listings', label: 'Listings' },
+    { href: '/agents', label: 'Our Agents' },
+    { href: '/about', label: 'About' },
+    { href: '/contact', label: 'Contact Us' },
+    { href: '/blog', label: 'Blog' },
   ];
 
   return (

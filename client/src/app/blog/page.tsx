@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import axios from "../../../../utils/axios";
+import axios from "../../../utils/axios";
 
 type Blog = {
   _id: string;
@@ -53,7 +53,7 @@ export default async function BlogPage() {
       {/* Featured Last Blog */}
       <div className="mb-16">
         <Link
-          href={`/estate/blog/view/${lastBlog.slug}`}
+          href={`/blog/view/${lastBlog.slug}`}
           className="flex flex-col md:flex-row gap-8 bg-gradient-to-br from-blue-50 to-indigo-50 hover:shadow-2xl transition-all duration-300 p-8 rounded-xl border border-blue-100"
         >
           {lastBlog.images?.[0] && (
@@ -112,7 +112,7 @@ export default async function BlogPage() {
   {first20Blogs.map((blog) => (
     <Link
       key={blog._id}
-      href={`/estate/blog/view/${blog.slug}`}
+      href={`/blog/view/${blog.slug}`}
       className="group flex flex-col bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100"
     >
       {blog.images?.[0] && (

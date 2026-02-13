@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import axios from "../../../../../utils/axios";
-import ShareButton from "../../../../../components/Share";
+import axios from "../../../../utils/axios";
+import ShareButton from "../../../../components/Share";
 import { MapPin, BedDouble, Bath,  } from "lucide-react";
 
 interface Agent {

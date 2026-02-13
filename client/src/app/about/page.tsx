@@ -3,8 +3,8 @@ import React from 'react';
 import Image from 'next/image';
 
 import { motion, Variants } from 'framer-motion';
-import Newletter from '../../../../components/Newletter';
-import NewsletterImag from '../../../../public/newsletter.jpg';
+import Newletter from '../../../components/Newletter';
+import NewsletterImag from '../../../public/newsletter.jpg';
 
 // Animation Variants
 const fadeUp: Variants = {

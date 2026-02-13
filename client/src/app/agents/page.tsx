@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "../../../../utils/axios";
+import axios from "../../../utils/axios";
 import Image from "next/image";
 import Link from "next/link";
 import { Mail, Phone, Building2, MessageCircle} from "lucide-react";
@@ -152,7 +152,7 @@ export default function PublicAgents() {
               }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
               className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-500 border border-slate-200 hover:border-amber-400 cursor-pointer"
-              onClick={() => window.location.href = `/estate/agents/${agent._id}`}
+              onClick={() => window.location.href = `/agents/${agent._id}`}
             >
               {/* Agent Photo */}
               <div className="relative h-80 overflow-hidden bg-slate-200">
@@ -242,7 +242,7 @@ export default function PublicAgents() {
                 {/* Action Buttons */}
                 <div className="space-y-2">
                   <Link
-                    href={`/estate/agents/${agent._id}`}
+                    href={`/agents/${agent._id}`}
                     className="block px-4 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-lg font-semibold text-center hover:from-amber-600 hover:to-amber-700 transition-all shadow-md hover:shadow-lg"
                     onClick={(e) => e.stopPropagation()}
                   >

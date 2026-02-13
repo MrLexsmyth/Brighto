@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import axios from "../../../../../utils/axios";
+import axios from "../../../../utils/axios";
 import Image from "next/image";
 import Link from "next/link";
 import { Mail, Phone, Globe, MapPin, Award, Home, MessageCircle } from "lucide-react";
@@ -77,7 +77,7 @@ export default function AgentDetailPage() {
           <p className="text-red-600 text-xl font-semibold">Agent not found.</p>
           <p className="text-slate-600 mt-2">The agent youre looking for doesnt exist.</p>
           <Link
-            href="/estate/agents"
+            href="/agents"
             className="inline-block mt-6 px-6 py-3 bg-amber-500 text-white rounded-lg font-semibold hover:bg-amber-600 transition-colors"
           >
             View All Agents
@@ -288,7 +288,7 @@ export default function AgentDetailPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {agent.properties.map((prop: Property) => (
                 <Link
-                  href={`/estate/listings/${prop.slug}`}
+                  href={`/listings/${prop.slug}`}
                   key={prop._id}
                   className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-slate-200 hover:border-amber-400 hover:-translate-y-1"
                 >

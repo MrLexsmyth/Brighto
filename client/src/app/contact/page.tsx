@@ -1,6 +1,6 @@
 'use client';
 
-import Newletter from '../../../../components/Newletter';
+import Newletter from '../../../components/Newletter';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { useState } from 'react';
 import { motion, Variants } from 'framer-motion';

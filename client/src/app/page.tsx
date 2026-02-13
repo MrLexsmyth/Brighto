@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { motion, Variants } from 'framer-motion';
-import PropertyCarousel from '../../../components/PropertyCarousel';
-import Explore from '../../../components/Explore';
-import Newletter from '../../../components/Newletter';
-import Hero from '../../../components/Hero';
-import FAQComponent from '../../../components/FAQ';
+import PropertyCarousel from '../../components/PropertyCarousel';
+import Explore from '../../components/Explore';
+import Newletter from '../../components/Newletter';
+import Hero from '../../components/Hero';
+import FAQComponent from '../../components/FAQ';
 
-import PropertyVideoSlider from '../../../components/PropertiesVideo';
-import Whatwedo from '../../../components/Whatwedo';
+import PropertyVideoSlider from '../../components/PropertiesVideo';
+import Whatwedo from '../../components/Whatwedo';
 
 
 

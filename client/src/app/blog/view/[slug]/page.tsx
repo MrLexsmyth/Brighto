@@ -1,5 +1,5 @@
 import Image from "next/image";
-import axios from "../../../../../../utils/axios";
+import axios from "../../../../../utils/axios";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
@@ -47,7 +47,7 @@ export default async function BlogSlugPage({
 
       {/* Hero Image */}
       {blog.images && blog.images.length > 0 && (
-        <div className="w-full h-[350px] md:h-[500px] relative mb-12">
+        <div className="w-full h-[350px] md:h-[500px] relative">
           <Image
             src={blog.images[0]}
             alt={blog.title}
