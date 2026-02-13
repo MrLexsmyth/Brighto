@@ -60,7 +60,7 @@ export default function Navbar() {
           <button onClick={toggleDarkMode} className="mr-3 text-white">
             {darkMode ? <Sun size={20} /> : <Moon size={20} />}
           </button>
-          <button onClick={() => setIsOpen(!isOpen)} className="text-white">
+          <button onClick={() => setIsOpen(!isOpen)} className="text-darkblue dark:text-white">
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
