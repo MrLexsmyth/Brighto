@@ -110,9 +110,9 @@ export default async function BlogPage() {
         <div className="h-1 w-20 bg-[#004274] mt-2 rounded"></div>
       </div>
 
-      {/* First 20 Blogs Grid */}
+    
 {/* First 20 Blogs Grid */}
-<div className="grid grid-cols-3 gap-6 bg-red-500">
+<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
   {first20Blogs.map((blog) => (
     <Link
       key={blog._id}
