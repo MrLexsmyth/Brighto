@@ -90,7 +90,7 @@ export default function PropertyCarousel() {
          {shuffledProperties.map((property) => (
         <SwiperSlide key={property._id}>
           <Link
-        href={`/estate/listings/${property.slug}`}
+        href={`/listings/${property.slug}`}
        
       >
   <div className="cursor-pointer overflow-hidden rounded-xl bg-white shadow transition-transform duration-300 hover:scale-[1.02] dark:bg-gray-800">
