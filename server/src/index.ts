@@ -32,8 +32,9 @@ app.use(cookieParser());
 // ================= CORS (UPDATED FOR CROSS-ORIGIN COOKIES) =================
 const allowedOrigins = [
   "http://localhost:3000", // Development
-  process.env.FRONTEND_URL, // Production Vercel URL
-].filter(Boolean); // Remove undefined values
+  "https://brighto.vercel.app", // Production frontend
+  process.env.FRONTEND_URL, // Fallback if set
+].filter((origin): origin is string => Boolean(origin)); // Type-safe filter
 
 app.use(
   cors({
@@ -41,26 +42,20 @@ app.use(
       // Allow requests with no origin (mobile apps, Postman, etc.)
       if (!origin) return callback(null, true);
       
-      if (allowedOrigins.indexOf(origin) !== -1) {
+      if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         console.log("❌ CORS blocked origin:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // ✅ CRITICAL: Allows cookies to be sent cross-origin
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
     exposedHeaders: ["Set-Cookie"],
-    maxAge: 86400, // Cache preflight requests for 24 hours
+    maxAge: 86400,
   })
 );
-
-// Handle preflight requests explicitly
-app.options("*", cors({
-  origin: allowedOrigins,
-  credentials: true,
-}));
 
 // 🔍 DEBUGGING MIDDLEWARE
 app.use((req, res, next) => {
