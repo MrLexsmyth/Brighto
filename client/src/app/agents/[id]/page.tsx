@@ -7,6 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Mail, Phone, Globe, MapPin, Award, Home, MessageCircle } from "lucide-react";
 
+export const dynamic = 'force-dynamic';
+
 interface Property {
   _id: string;
   title: string;

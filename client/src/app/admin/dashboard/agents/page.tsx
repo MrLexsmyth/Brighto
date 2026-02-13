@@ -5,6 +5,8 @@ import axios from "../../../../../utils/axios";
 import Link from "next/link";
 import Image from "next/image";
 
+export const dynamic = 'force-dynamic';
+
 interface Agent {
   _id: string;
   name: string;

@@ -10,6 +10,9 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 
+
+export const dynamic = 'force-dynamic';
+
 // TipTap requires client-side only rendering
 interface BlogFormData {
   title: string;

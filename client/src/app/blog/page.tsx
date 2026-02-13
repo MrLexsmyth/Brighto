@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "../../../utils/axios";
 
+export const dynamic = 'force-dynamic';
+
 type Blog = {
   _id: string;
   title: string;

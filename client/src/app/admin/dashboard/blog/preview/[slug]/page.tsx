@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import axios from "../../../../../../../utils/axios";
 
+export const dynamic = 'force-dynamic';
+
 interface Blog {
   _id: string;
   title: string;

@@ -7,6 +7,9 @@ import Link from "next/link";
 import { Mail, Phone, Building2, MessageCircle} from "lucide-react";
 import { motion } from "framer-motion";
 
+
+export const dynamic = 'force-dynamic';
+
 interface Agent {
   _id: string;
   name: string;

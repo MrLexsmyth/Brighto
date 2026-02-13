@@ -5,6 +5,8 @@ import { useParams, useRouter } from "next/navigation";
 import axios from "../../../../../../utils/axios";
 import Image from "next/image";
 
+export const dynamic = 'force-dynamic';
+
 interface Agent {
   _id: string;
   name: string;

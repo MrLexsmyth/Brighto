@@ -3,6 +3,8 @@ import axios from "../../../../../utils/axios";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
+export const dynamic = 'force-dynamic';
+
 type Blog = {
   title: string;
   content: string;

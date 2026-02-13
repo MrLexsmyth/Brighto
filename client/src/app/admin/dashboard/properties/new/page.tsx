@@ -7,6 +7,8 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 
+export const dynamic = 'force-dynamic';
+
 interface PropertyForm {
   title: string;
   description: string;

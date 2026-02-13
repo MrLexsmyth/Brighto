@@ -7,6 +7,8 @@ import axios from "../../../../utils/axios";
 import ShareButton from "../../../../components/Share";
 import { MapPin, BedDouble, Bath,  } from "lucide-react";
 
+export const dynamic = 'force-dynamic';
+
 interface Agent {
   _id: string;
   name: string;
