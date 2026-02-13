@@ -12,7 +12,7 @@ type Blog = {
 };
 
 async function getBlogs(): Promise<Blog[]> {
-  const res = await axios.get("/blogs");
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/blogs`);
   return res.data;
 }
 
