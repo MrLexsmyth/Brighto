@@ -114,17 +114,6 @@ export default function PublicAgents() {
           >
             Dedicated professionals ready to help you find your perfect property
           </motion.p>
-          {/* <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-6 flex items-center justify-center gap-2 text-slate-400"
-          >
-            <Award className="w-5 h-5 text-amber-400" />
-            <span className="text-sm">
-              {agents.length} Professional Agent{agents.length !== 1 ? 's' : ''} Available
-            </span>
-          </motion.div> */}
         </div>
       </div>
 
@@ -152,8 +141,7 @@ export default function PublicAgents() {
                 visible: { opacity: 1, y: 0 }
               }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-500 border border-slate-200 hover:border-amber-400 cursor-pointer"
-              onClick={() => window.location.href = `/agents/${agent._id}`}
+              className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-500 border border-slate-200 hover:border-amber-400"
             >
               {/* Agent Photo */}
               <div className="relative h-80 overflow-hidden bg-slate-200">
@@ -222,21 +210,15 @@ export default function PublicAgents() {
 
                 {/* Contact Info */}
                 <div className="space-y-2 mb-4 pb-4 border-b border-slate-200">
-                  <motion.div
-                    whileHover={{ x: 5 }}
-                    className="flex items-center gap-2 text-slate-600 text-sm"
-                  >
+                  <div className="flex items-center gap-2 text-slate-600 text-sm hover:text-amber-600 transition-colors">
                     <Mail className="w-4 h-4 text-amber-500 flex-shrink-0" />
                     <span className="truncate">{agent.email}</span>
-                  </motion.div>
+                  </div>
                   {agent.phone && (
-                    <motion.div
-                      whileHover={{ x: 5 }}
-                      className="flex items-center gap-2 text-slate-600 text-sm"
-                    >
+                    <div className="flex items-center gap-2 text-slate-600 text-sm hover:text-amber-600 transition-colors">
                       <Phone className="w-4 h-4 text-amber-500 flex-shrink-0" />
                       <span>{agent.phone}</span>
-                    </motion.div>
+                    </div>
                   )}
                 </div>
 
@@ -244,27 +226,21 @@ export default function PublicAgents() {
                 <div className="space-y-2">
                   <Link
                     href={`/agents/${agent._id}`}
-                    className="block px-4 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-lg font-semibold text-center hover:from-amber-600 hover:to-amber-700 transition-all shadow-md hover:shadow-lg"
-                    onClick={(e) => e.stopPropagation()}
+                    className="block px-4 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-lg font-semibold text-center hover:from-amber-600 hover:to-amber-700 transition-all shadow-md hover:shadow-lg active:scale-95"
                   >
-                    <motion.span whileHover={{ x: 5 }} className="inline-block">
-                      View Profile →
-                    </motion.span>
+                    View Profile →
                   </Link>
                   
                   {agent.phone && (
-                    <motion.a
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      href={`https://wa.me/${agent.phone}?text=Hello ${encodeURIComponent(agent.name)}`}
+                    <a
+                      href={`https://wa.me/${agent.phone.replace(/\D/g, '')}?text=Hello ${encodeURIComponent(agent.name)}, I found your profile on Brighto and would like to discuss properties with you.`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all shadow-md hover:shadow-lg"
-                      onClick={(e) => e.stopPropagation()}
+                      className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg font-semibold hover:from-green-600 hover:to-green-700 transition-all shadow-md hover:shadow-lg active:scale-95"
                     >
                       <MessageCircle className="w-5 h-5" />
                       <span>WhatsApp</span>
-                    </motion.a>
+                    </a>
                   )}
                 </div>
               </div>
@@ -307,22 +283,18 @@ export default function PublicAgents() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-wrap gap-4 justify-center"
           >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                href="/estate/listings"
-                className="inline-block px-8 py-4 bg-amber-500 text-white rounded-xl font-semibold hover:bg-amber-600 transition-all shadow-lg hover:shadow-xl"
-              >
-                Browse Properties
-              </Link>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link
-                href="/contact"
-                className="inline-block px-8 py-4 bg-white text-slate-900 rounded-xl font-semibold hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl"
-              >
-                Contact Us
-              </Link>
-            </motion.div>
+            <Link
+              href="/listings"
+              className="inline-block px-8 py-4 bg-amber-500 text-white rounded-xl font-semibold hover:bg-amber-600 transition-all shadow-lg hover:shadow-xl active:scale-95"
+            >
+              Browse Properties
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-block px-8 py-4 bg-white text-slate-900 rounded-xl font-semibold hover:bg-slate-100 transition-all shadow-lg hover:shadow-xl active:scale-95"
+            >
+              Contact Us
+            </Link>
           </motion.div>
         </motion.div>
       </div>
