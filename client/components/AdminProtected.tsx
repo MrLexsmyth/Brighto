@@ -3,6 +3,7 @@
 
 import { useEffect, useState, ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import { AxiosError } from "axios";
 import api from "../utils/axios";
 
 interface Admin {
@@ -21,8 +22,13 @@ export default function AdminProtected({ children }: AdminProtectedProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    console.log("🔵 AdminProtected mounted");
+    
     const verifyAuth = async () => {
+      console.log("🔵 Starting auth verification...");
+      
       const token = localStorage.getItem("adminToken");
+      console.log("🔵 Token from localStorage:", token ? token.substring(0, 30) + "..." : "NULL");
       
       if (!token) {
         console.log("❌ No token found, redirecting to login");
@@ -30,21 +36,36 @@ export default function AdminProtected({ children }: AdminProtectedProps) {
         return;
       }
 
-      try {
+      // Check if Authorization header is set
+      console.log("🔵 Current Authorization header:", api.defaults.headers.common['Authorization']);
+ try {
+        console.log("🔵 Calling /admin/dashboard...");
         const response = await api.get("/admin/dashboard");
-        console.log("✅ Auth verified:", response.data);
+        console.log("✅ Auth verified successfully!");
+        console.log("✅ Admin data:", response.data.admin);
         setAdmin(response.data.admin);
-      } catch (error) {
-        console.error("❌ Auth verification failed:", error);
+      } catch (err) {
+        const error = err as AxiosError;
+        console.error("❌ Auth verification failed!");
+        console.error("❌ Error status:", error.response?.status);
+        console.error("❌ Error message:", error.message);
+        console.error("❌ Error response:", error.response?.data);
+        
         localStorage.removeItem("adminToken");
+        delete api.defaults.headers.common['Authorization'];
+        
+        console.log("❌ Redirecting to login...");
         router.push("/admin/login");
       } finally {
+        console.log("🔵 Setting loading to false");
         setIsLoading(false);
       }
     };
 
     verifyAuth();
   }, [router]);
+
+  console.log("🔵 Current state - isLoading:", isLoading, "admin:", admin ? "SET" : "NULL");
 
   if (isLoading) {
     return (
@@ -58,8 +79,10 @@ export default function AdminProtected({ children }: AdminProtectedProps) {
   }
 
   if (!admin) {
+    console.log("❌ No admin set, returning null");
     return null;
   }
 
+  console.log("✅ Rendering dashboard with admin:", admin.name);
   return <>{children(admin)}</>;
 }
