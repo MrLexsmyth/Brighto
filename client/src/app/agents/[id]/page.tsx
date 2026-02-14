@@ -271,82 +271,82 @@ export default function AgentDetailPage() {
         ) : null}
 
         {/* Properties Section */}
-        <div>
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg flex items-center justify-center">
-                <Home className="w-6 h-6 text-white" />
-              </div>
-              Properties by {agent.name}
-            </h2>
-            {agent.properties && agent.properties.length > 0 && (
-              <span className="px-4 py-2 bg-amber-100 text-amber-700 rounded-full font-semibold">
-                {agent.properties.length} {agent.properties.length === 1 ? 'Property' : 'Properties'}
-              </span>
-            )}
-          </div>
+       <div>
+  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+    <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center gap-3">
+      <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg flex items-center justify-center">
+        <Home className="w-6 h-6 text-white" />
+      </div>
+      <span className="line-clamp-2">Properties by {agent.name}</span>
+    </h2>
+    {agent.properties && agent.properties.length > 0 && (
+      <span className="px-4 py-2 bg-amber-100 text-amber-700 rounded-full font-semibold text-sm sm:text-base whitespace-nowrap self-start sm:self-auto">
+        {agent.properties.length} {agent.properties.length === 1 ? 'Property' : 'Properties'}
+      </span>
+    )}
+  </div>
 
-          {agent.properties && agent.properties.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {agent.properties.map((prop: Property) => (
-                <Link
-                  href={`/listings/${prop.slug}`}
-                  key={prop._id}
-                  className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-slate-200 hover:border-amber-400 hover:-translate-y-1"
-                >
-                  {prop.images && prop.images[0] && (
-                    <div className="relative w-full h-56 overflow-hidden bg-slate-200">
-                      <Image
-                        src={prop.images[0]}
-                        alt={prop.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute top-3 right-3 px-3 py-1 bg-slate-900/80 backdrop-blur-sm text-white text-sm font-semibold rounded-full">
-                        {prop.type}
-                      </div>
-                    </div>
-                  )}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-amber-600 transition-colors line-clamp-2">
-                      {prop.title}
-                    </h3>
-                    <p className="text-slate-600 mb-4 flex items-center gap-2">
-                      <MapPin className="w-4 h-4 flex-shrink-0" />
-                      <span className="line-clamp-1">{prop.location}</span>
-                    </p>
-                    <div className="flex items-center justify-between pt-4 border-t border-slate-200">
-                      {prop.price && (
-                        <p className="text-2xl font-bold text-amber-600">
-                          ₦{prop.price.toLocaleString()}
-                        </p>
-                      )}
-                      {prop.pricePerNight && (
-                        <p className="text-2xl font-bold text-amber-600">
-                          ₦{prop.pricePerNight.toLocaleString()}
-                          <span className="text-sm text-slate-500 font-normal">/night</span>
-                        </p>
-                      )}
-                      <div className="text-amber-600 font-semibold group-hover:translate-x-1 transition-transform">
-                        View →
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <div className="bg-white rounded-2xl p-12 text-center border border-slate-200 shadow-md">
-              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Home className="w-8 h-8 text-slate-400" />
+  {agent.properties && agent.properties.length > 0 ? (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      {agent.properties.map((prop: Property) => (
+        <Link
+          href={`/listings/${prop.slug}`}
+          key={prop._id}
+          className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-slate-200 hover:border-amber-400 hover:-translate-y-1"
+        >
+          {prop.images && prop.images[0] && (
+            <div className="relative w-full h-48 sm:h-56 overflow-hidden bg-slate-200">
+              <Image
+                src={prop.images[0]}
+                alt={prop.title}
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute top-3 right-3 px-3 py-1 bg-slate-900/80 backdrop-blur-sm text-white text-xs sm:text-sm font-semibold rounded-full">
+                {prop.type}
               </div>
-              <p className="text-slate-600 text-lg">
-                {agent.name} currently has no listed properties.
-              </p>
-              <p className="text-slate-500 mt-2">Check back soon for new listings!</p>
             </div>
           )}
-        </div>
+          <div className="p-4 sm:p-6">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 group-hover:text-amber-600 transition-colors line-clamp-2">
+              {prop.title}
+            </h3>
+            <p className="text-sm sm:text-base text-slate-600 mb-4 flex items-center gap-2">
+              <MapPin className="w-4 h-4 flex-shrink-0" />
+              <span className="line-clamp-1">{prop.location}</span>
+            </p>
+            <div className="flex items-center justify-between pt-4 border-t border-slate-200">
+              {prop.price && (
+                <p className="text-xl sm:text-2xl font-bold text-amber-600">
+                  ₦{prop.price.toLocaleString()}
+                </p>
+              )}
+              {prop.pricePerNight && (
+                <p className="text-xl sm:text-2xl font-bold text-amber-600">
+                  ₦{prop.pricePerNight.toLocaleString()}
+                  <span className="text-xs sm:text-sm text-slate-500 font-normal">/night</span>
+                </p>
+              )}
+              <div className="text-sm sm:text-base text-amber-600 font-semibold group-hover:translate-x-1 transition-transform">
+                View →
+              </div>
+            </div>
+          </div>
+        </Link>
+      ))}
+    </div>
+  ) : (
+    <div className="bg-white rounded-2xl p-8 sm:p-12 text-center border border-slate-200 shadow-md">
+      <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <Home className="w-8 h-8 text-slate-400" />
+      </div>
+      <p className="text-slate-600 text-base sm:text-lg">
+        {agent.name} currently has no listed properties.
+      </p>
+      <p className="text-slate-500 mt-2 text-sm sm:text-base">Check back soon for new listings!</p>
+    </div>
+  )}
+</div>
       </div>
     </div>
   );
