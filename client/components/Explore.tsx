@@ -193,14 +193,14 @@ useEffect(() => {
               className="proper w-full sm:w-full md:w-[48%] lg:w-[45%] h-[200px] md:h-auto gap-4 p-0 md:p-4 rounded-lg flex flex-col justify-center items-center text-center transition-colors duration-300 hover:text-[#00aeff]"
             >
               <Image 
-  src={item.icon} 
-  alt={item.label} 
-  width={60} 
-  height={60}
-  className="w-auto h-auto max-w-[60px] max-h-[60px]"
+                 src={item.icon} 
+                 alt={item.label} 
+                 width={60} 
+                 height={60}
+                 className="w-auto h-auto max-w-[60px] max-h-[60px]"
 />
               <Link
-                href="/"
+                href="/listings"
                 className="mt-2 transition-colors duration-300"
               >
                 {item.label}

@@ -30,14 +30,14 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/logo4.png"
-            alt="Logo"
-            width={120}
-            height={80}
-            className="object-contain"
-            priority
-          />
+        <Image
+  src="/logo4.png"
+  alt="Logo"
+  width={120}
+  height={80}
+  className="object-contain w-auto h-auto"
+  priority
+/>
         </Link>
 
         {/* Desktop Navigation */}

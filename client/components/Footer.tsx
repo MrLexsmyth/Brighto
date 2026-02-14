@@ -10,14 +10,14 @@ const Footer = () => {
        
         <div>
          <Link href="/" aria-label="Go to homepage">
-  <Image
-    src="/logo4.png"
-    alt="Bright Estate Logo"
-    width={100}
-    height={40}
-    className="h-auto w-auto"
-    priority
-  />
+ <Image
+  src="/logo4.png"
+  alt="Logo"
+  width={120}
+  height={80}
+  className="object-contain w-auto h-auto"
+  priority
+/>
 </Link>
 
           <p className="mt-4 text-sm leading-relaxed">
