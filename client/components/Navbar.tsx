@@ -29,7 +29,7 @@ export default function Navbar() {
     <nav className="font-jakarta w-full bg-white dark:bg-gray-900 text-darkblue shadow-md fixed top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
-        <Link href="/estate" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <Image
             src="/logo4.png"
             alt="Logo"
