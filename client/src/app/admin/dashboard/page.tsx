@@ -1,6 +1,5 @@
 "use client";
-
-import { useEffect, useState } from "react";
+import AdminProtected from "../../../../components/AdminProtected";
 import { useRouter } from "next/navigation";
 import api from "../../../../utils/axios";
 import { 
@@ -19,6 +18,7 @@ import {
 } from "lucide-react";
 
 interface AdminType {
+  _id: string;
   name: string;
   email: string;
 }
@@ -83,33 +83,20 @@ function QuickAction({ icon, label, onClick }: QuickActionProps) {
   );
 }
 
-export default function Dashboard() {
+function DashboardContent({ admin }: { admin: AdminType }) {
   const router = useRouter();
-  const [admin, setAdmin] = useState<AdminType | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    api.get("/admin/dashboard")
-      .then(res => setAdmin(res.data.admin as AdminType))
-      .catch(() => router.push("/admin/login"))
-      .finally(() => setLoading(false));
-  }, [router]);
 
   const handleLogout = async () => {
-    await api.post("/admin/logout");
-    router.push("/admin/login");
+    try {
+      await api.post("/admin/logout");
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      localStorage.removeItem("adminToken");
+      delete api.defaults.headers.common['Authorization'];
+      router.push("/admin/login");
+    }
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-amber-50/30 to-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600 font-medium">Loading your dashboard...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-amber-50/30 to-gray-50">
@@ -340,5 +327,13 @@ export default function Dashboard() {
         }
       `}</style>
     </div>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <AdminProtected>
+      {(admin: AdminType) => <DashboardContent admin={admin} />}
+    </AdminProtected>
   );
 }

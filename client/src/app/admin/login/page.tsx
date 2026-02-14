@@ -40,6 +40,7 @@ export default function AdminLogin() {
       await new Promise(resolve => setTimeout(resolve, 100));
       
       router.push("/admin/dashboard");
+      router.refresh();
     } catch (err: unknown) {
       const error = err as AxiosError<ErrorResponse>;
       setError(error.response?.data?.message || "Login failed");
