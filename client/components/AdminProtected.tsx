@@ -38,15 +38,16 @@ export default function AdminProtected({ children }: AdminProtectedProps) {
 
       // Check if Authorization header is set
       console.log("🔵 Current Authorization header:", api.defaults.headers.common['Authorization']);
- try {
+try {
   console.log("🔵 Calling /admin/dashboard...");
   const authToken = localStorage.getItem("adminToken");
   
-  // ADD THIS LINE TO DEBUG
   console.log("🔵 API baseURL:", api.defaults.baseURL);
-  console.log("🔵 Full URL will be:", `${api.defaults.baseURL}/admin/dashboard?token=${authToken?.substring(0, 30)}...`);
+  console.log("🔵 Sending POST request with token in body");
   
-  const response = await api.post(`/admin/dashboard?token=${authToken}`);
+  // Send token in the request body, NOT in the URL
+  const response = await api.post('/admin/dashboard', { token: authToken });
+  
   console.log("✅ Auth verified successfully!");
   console.log("✅ Admin data:", response.data);
   setAdmin(response.data.admin);
