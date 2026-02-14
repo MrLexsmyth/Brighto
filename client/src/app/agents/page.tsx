@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "../../../utils/axios";
+import { AxiosError } from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { Mail, Phone, Building2, MessageCircle} from "lucide-react";
@@ -26,23 +27,53 @@ interface Agent {
 export default function PublicAgents() {
   const [agents, setAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchAgents = async () => {
-      try {
-        const res = await axios.get("/agents");
-        setAgents(res.data);
-      } catch (err) {
-        console.error("Failed to fetch agents", err);
-        setError(true);
-      } finally {
+  const fetchAgents = async (retryCount = 0) => {
+    try {
+      console.log("Fetching agents from API...");
+      const res = await axios.get("/agents");
+      console.log("Agents fetched successfully:", res.data);
+      
+      // Filter out any agents with malformed data
+      const validAgents = res.data.filter((agent: Agent) => {
+        try {
+          // Basic validation
+          return agent._id && agent.name && agent.email;
+        } catch (filterErr) {
+          console.error("Invalid agent data:", agent, filterErr);
+          return false;
+        }
+      });
+      
+      setAgents(validAgents);
+      setError(null);
+    } catch (err) {
+      const axiosError = err as AxiosError;
+      
+      console.error("Failed to fetch agents - Full error:", err);
+      console.error("Error response:", axiosError.response?.data);
+      console.error("Error status:", axiosError.response?.status);
+      console.error("Error message:", axiosError.message);
+      
+      // Retry once if it's a network error
+      if (retryCount < 1 && (!axiosError.response || axiosError.code === 'ERR_NETWORK')) {
+        console.log("Retrying API call...");
+        setTimeout(() => fetchAgents(retryCount + 1), 1000);
+        return;
+      } else {
+        setError(axiosError.message || "Failed to load agents");
+      }
+    } finally {
+      if (retryCount >= 1) {
         setLoading(false);
       }
-    };
+    }
+  };
 
-    fetchAgents();
-  }, []);
+  fetchAgents();
+}, []);
 
   if (loading) {
     return (
@@ -63,7 +94,13 @@ export default function PublicAgents() {
             <span className="text-3xl">⚠️</span>
           </div>
           <p className="text-red-600 text-xl font-semibold mb-2">Failed to load agents</p>
-          <p className="text-slate-600">Please try again later or contact support.</p>
+          <p className="text-slate-600 text-sm mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors"
+          >
+            Retry
+          </button>
         </div>
       </div>
     );
@@ -284,7 +321,7 @@ export default function PublicAgents() {
             className="flex flex-wrap gap-4 justify-center"
           >
             <Link
-              href="/listings"
+              href="/estate/listings"
               className="inline-block px-8 py-4 bg-amber-500 text-white rounded-xl font-semibold hover:bg-amber-600 transition-all shadow-lg hover:shadow-xl active:scale-95"
             >
               Browse Properties
