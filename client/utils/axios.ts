@@ -11,11 +11,13 @@ const api = axios.create({
 
 // Add request interceptor to attach token
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token = localStorage.getItem("adminToken");
-  if (token) {
-    // Properly set the custom header
-    config.headers.set('x-auth-token', token);
-    console.log("📤 Token attached as x-auth-token");
+  // Only access localStorage in the browser
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem("adminToken");
+    if (token) {
+      config.headers.set('x-auth-token', token);
+      console.log("📤 Token attached as x-auth-token");
+    }
   }
   return config;
 });
@@ -26,9 +28,11 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       console.log("❌ 401 Unauthorized - clearing token");
-      localStorage.removeItem("adminToken");
-      if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
-        window.location.href = "/admin/login";
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem("adminToken");
+        if (!window.location.pathname.includes('/login')) {
+          window.location.href = "/admin/login";
+        }
       }
     }
     return Promise.reject(error);
