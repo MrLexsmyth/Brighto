@@ -33,7 +33,7 @@ export default function PublicAgents() {
   const fetchAgents = async (retryCount = 0) => {
     try {
       console.log("Fetching agents from API...");
-      const res = await axios.get("/agents");
+      const res = await axios.get("/agents/public/list");
       console.log("Agents fetched successfully:", res.data);
       
       // Filter out any agents with malformed data

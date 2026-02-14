@@ -45,7 +45,7 @@ export default function AgentDetailPage() {
   useEffect(() => {
     const fetchAgent = async () => {
       try {
-        const res = await axios.get(`/agents/${id}`);
+        const res = await axios.get(`/agents/public/${id}`);
         setAgent(res.data);
       } catch (err) {
         console.error("Failed to fetch agent", err);
