@@ -62,7 +62,7 @@ export const loginAdmin = asyncHandler(async (req: Request, res: Response) => {
     secure: true, // Always true in production
     sameSite: "none", // CRITICAL: Changed from "strict" to "none" for cross-origin
     maxAge: 7 * 24 * 60 * 60 * 1000,
-    domain: process.env.COOKIE_DOMAIN, // Optional: only if using same root domain
+     
     path: "/",
   });
 
