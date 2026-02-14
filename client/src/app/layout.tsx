@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import ErudaLoader from "../../components/ErudaLoader";
+
 
 
 const poppins = Poppins({
@@ -66,7 +66,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body>
-         <ErudaLoader />
+         
         <Script src="https://cdn.lordicon.com/lordicon.js" strategy="beforeInteractive" />
         <Navbar  />
         <main className="mt-16">
