@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 const api = axios.create({
@@ -9,12 +8,31 @@ const api = axios.create({
   withCredentials: true, 
 });
 
-// Add token from localStorage if it exists
-if (typeof window !== 'undefined') {
+// CRITICAL: Add request interceptor to ALWAYS attach token
+api.interceptors.request.use((config) => {
   const token = localStorage.getItem("adminToken");
   if (token) {
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    config.headers.Authorization = `Bearer ${token}`;
+    console.log("📤 Attaching token to request:", config.url);
+  } else {
+    console.log("⚠️ No token to attach");
   }
-}
+  return config;
+});
+
+// Add response interceptor to catch 401 errors
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      console.log("❌ 401 Unauthorized - clearing token");
+      localStorage.removeItem("adminToken");
+      if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
+        window.location.href = "/admin/login";
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;
