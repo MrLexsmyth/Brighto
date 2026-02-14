@@ -15,18 +15,18 @@ export const protect = asyncHandler(
     console.log("🔐 x-auth-token:", req.headers['x-auth-token']);
     console.log("🔐 Cookies:", req.cookies);
     
-    let token;
+   let token;
 
-    // Check query parameter (for iOS workaround)
-    if (req.query.token) {
-      token = req.query.token as string;
-      console.log("🔐 Token found in query parameter");
-    }
-    // Check custom header
-    else if (req.headers['x-auth-token']) {
-      token = req.headers['x-auth-token'] as string;
-      console.log("🔐 Token found in x-auth-token header");
-    }
+// Check request body first (for POST requests)
+if (req.body && req.body.token) {
+  token = req.body.token as string;
+  console.log("🔐 Token found in request body");
+}
+// Check query parameter (for GET with iOS)
+else if (req.query.token) {
+  token = req.query.token as string;
+  console.log("🔐 Token found in query parameter");
+}
     // Fallback to cookie (desktop)
     else if (req.cookies.adminToken) {
       token = req.cookies.adminToken;

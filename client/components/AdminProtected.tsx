@@ -46,7 +46,7 @@ export default function AdminProtected({ children }: AdminProtectedProps) {
   console.log("🔵 API baseURL:", api.defaults.baseURL);
   console.log("🔵 Full URL will be:", `${api.defaults.baseURL}/admin/dashboard?token=${authToken?.substring(0, 30)}...`);
   
-  const response = await api.get(`/admin/dashboard?token=${authToken}`);
+  const response = await api.post(`/admin/dashboard?token=${authToken}`);
   console.log("✅ Auth verified successfully!");
   console.log("✅ Admin data:", response.data);
   setAdmin(response.data.admin);

@@ -11,7 +11,7 @@ router.post("/logout", protect, logoutAdmin);
 
 
 // Protected
-router.get("/dashboard", protect, (req: AdminRequest, res: Response) => {
+router.post("/dashboard", protect, (req: AdminRequest, res: Response) => {
   res.json({
     message: "Welcome Admin",
     admin: req.admin, 
