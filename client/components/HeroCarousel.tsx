@@ -1,7 +1,7 @@
 'use client'
 
 import { Carousel } from 'react-responsive-carousel';
-import Image from "next/legacy/image";
+import Image from "next/image";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 export default function HeroCarousel() {
