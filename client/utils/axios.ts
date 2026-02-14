@@ -1,26 +1,26 @@
-import axios from "axios";
+// utils/axios.ts
+import axios, { InternalAxiosRequestConfig } from "axios";
 
 const api = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"
       ? process.env.NEXT_PUBLIC_PROD_SERVER_URL
       : process.env.NEXT_PUBLIC_SERVER_URL,
-  withCredentials: true, 
+  timeout: 30000,
 });
 
-// CRITICAL: Add request interceptor to ALWAYS attach token
-api.interceptors.request.use((config) => {
+// Add request interceptor to attach token
+api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = localStorage.getItem("adminToken");
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-    console.log("📤 Attaching token to request:", config.url);
-  } else {
-    console.log("⚠️ No token to attach");
+    // Properly set the custom header
+    config.headers.set('x-auth-token', token);
+    console.log("📤 Token attached as x-auth-token");
   }
   return config;
 });
 
-// Add response interceptor to catch 401 errors
+// Response interceptor
 api.interceptors.response.use(
   (response) => response,
   (error) => {

@@ -11,17 +11,22 @@ export interface AdminRequest extends Request {
 export const protect = asyncHandler(
   async (req: AdminRequest, res: Response, next: NextFunction) => {
     console.log("🔐 Protect middleware started");
+    console.log("🔐 x-auth-token:", req.headers['x-auth-token']);
     console.log("🔐 Cookies:", req.cookies);
-    console.log("🔐 Authorization header:", req.headers.authorization);
     
     let token;
 
-    // Check for Bearer token in Authorization header first (for mobile/localStorage)
-    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+    // Check custom header first (for mobile)
+    if (req.headers['x-auth-token']) {
+      token = req.headers['x-auth-token'] as string;
+      console.log("🔐 Token found in x-auth-token header");
+    }
+    // Check Authorization header
+    else if (req.headers.authorization?.startsWith("Bearer")) {
       token = req.headers.authorization.split(" ")[1];
       console.log("🔐 Token found in Authorization header");
     }
-    // Fallback to cookie (for desktop browsers)
+    // Fallback to cookie (desktop)
     else if (req.cookies.adminToken) {
       token = req.cookies.adminToken;
       console.log("🔐 Token found in cookies");
