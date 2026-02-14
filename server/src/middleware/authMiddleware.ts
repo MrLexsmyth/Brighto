@@ -11,30 +11,12 @@ export interface AdminRequest extends Request {
 export const protect = asyncHandler(
   async (req: AdminRequest, res: Response, next: NextFunction) => {
     console.log("🔐 Protect middleware started");
-    console.log("🔐 Query token:", req.query.token);
-    console.log("🔐 x-auth-token:", req.headers['x-auth-token']);
     console.log("🔐 Cookies:", req.cookies);
     
-   let token;
-
-// Check request body first (for POST requests)
-if (req.body && req.body.token) {
-  token = req.body.token as string;
-  console.log("🔐 Token found in request body");
-}
-// Check query parameter (for GET with iOS)
-else if (req.query.token) {
-  token = req.query.token as string;
-  console.log("🔐 Token found in query parameter");
-}
-    // Fallback to cookie (desktop)
-    else if (req.cookies.adminToken) {
-      token = req.cookies.adminToken;
-      console.log("🔐 Token found in cookies");
-    }
+    const token = req.cookies.adminToken;
     
     if (!token) {
-      console.log("❌ No token found in cookies or Authorization header");
+      console.log("❌ No token found in cookies");
       res.status(401);
       throw new Error("Not authorized, no token");
     }
@@ -49,7 +31,6 @@ else if (req.query.token) {
       
       if (!admin) {
         console.log("❌ Admin not found in database");
-        res.status(401);
         throw new Error("Admin not found");
       }
 

@@ -15,7 +15,7 @@ import publicPropertyRoutes from "./routes/publicPropertyRoutes";
 import adminBlogRoutes from "./routes/adminBlogRoutes";
 import publicBlogRoutes from "./routes/publicBlogRoutes";
 import agentRoutes from "./routes/agentRoutes";
-
+import adminAgentRoutes from "./routes/agentRoutes";
 
 const app = express();
 
