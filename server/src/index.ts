@@ -9,13 +9,13 @@ import cors from "cors";
 
 import { connectRedis } from "./config/redis";
 
-import adminRoutes from "./routes/adminRoutes";
-import adminPropertyRoutes from "./routes/adminPropertyRoutes";
+// import adminRoutes from "./routes/adminRoutes";
+// import adminPropertyRoutes from "./routes/adminPropertyRoutes";
 import publicPropertyRoutes from "./routes/publicPropertyRoutes";
-import adminBlogRoutes from "./routes/adminBlogRoutes";
+// import adminBlogRoutes from "./routes/adminBlogRoutes";
 import publicBlogRoutes from "./routes/publicBlogRoutes";
 import agentRoutes from "./routes/agentRoutes";
-import adminAgentRoutes from "./routes/adminAgentRoutes";
+// import adminAgentRoutes from "./routes/adminAgentRoutes";
 
 const app = express();
 
