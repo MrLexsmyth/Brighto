@@ -39,12 +39,13 @@ export default function AdminProtected({ children }: AdminProtectedProps) {
       // Check if Authorization header is set
       console.log("🔵 Current Authorization header:", api.defaults.headers.common['Authorization']);
  try {
-        console.log("🔵 Calling /admin/dashboard...");
-        const response = await api.get("/admin/dashboard");
-        console.log("✅ Auth verified successfully!");
-        console.log("✅ Admin data:", response.data.admin);
-        setAdmin(response.data.admin);
-      } catch (err) {
+  console.log("🔵 Calling /admin/dashboard...");
+  const token = localStorage.getItem("adminToken");
+  const response = await api.get(`/admin/dashboard?token=${token}`);
+  console.log("✅ Auth verified successfully!");
+  console.log("✅ Admin data:", response.data);
+  setAdmin(response.data.admin);
+} catch (err) {
         const error = err as AxiosError;
         console.error("❌ Auth verification failed!");
         console.error("❌ Error status:", error.response?.status);
