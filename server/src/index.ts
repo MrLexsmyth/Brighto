@@ -15,7 +15,7 @@ import publicPropertyRoutes from "./routes/publicPropertyRoutes";
 import adminBlogRoutes from "./routes/adminBlogRoutes";
 import publicBlogRoutes from "./routes/publicBlogRoutes";
 import agentRoutes from "./routes/agentRoutes";
-import adminAgentRoutes from "./routes/agentRoutes";
+import adminAgentRoutes from "./routes/adminAgentRoutes";
 
 const app = express();
 
@@ -84,8 +84,8 @@ app.use("/api/admin/properties", adminPropertyRoutes);
 app.use("/api/properties", publicPropertyRoutes);
 app.use("/api/admin/blogs", adminBlogRoutes);
 app.use("/api/blogs", publicBlogRoutes);
-app.use("/api/admin/agents", agentRoutes);
 app.use("/api/agents", agentRoutes);
+app.use("/api/admin/agents", adminAgentRoutes);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
