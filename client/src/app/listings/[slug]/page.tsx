@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import axios from "../../../../utils/axios";
+import api from "../../../../utils/axios";
 import ShareButton from "../../../../components/Share";
 import { MapPin, BedDouble, Bath,  } from "lucide-react";
 
@@ -133,7 +133,7 @@ export default function PublicPropertyPage() {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const res = await axios.get(`/properties/slug/${slug}`);
+        const res = await api.get(`/properties/slug/${slug}`);
         setProperty(res.data);
       } catch (err) {
         console.error("Error fetching property:", err);

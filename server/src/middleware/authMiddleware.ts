@@ -12,11 +12,23 @@ export const protect = asyncHandler(
   async (req: AdminRequest, res: Response, next: NextFunction) => {
     console.log("🔐 Protect middleware started");
     console.log("🔐 Cookies:", req.cookies);
+    console.log("🔐 Authorization header:", req.headers.authorization);
     
-    const token = req.cookies.adminToken;
+    let token;
+
+    // Check for Bearer token in Authorization header first (for mobile/localStorage)
+    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+      token = req.headers.authorization.split(" ")[1];
+      console.log("🔐 Token found in Authorization header");
+    }
+    // Fallback to cookie (for desktop browsers)
+    else if (req.cookies.adminToken) {
+      token = req.cookies.adminToken;
+      console.log("🔐 Token found in cookies");
+    }
     
     if (!token) {
-      console.log("❌ No token found in cookies");
+      console.log("❌ No token found in cookies or Authorization header");
       res.status(401);
       throw new Error("Not authorized, no token");
     }
@@ -31,6 +43,7 @@ export const protect = asyncHandler(
       
       if (!admin) {
         console.log("❌ Admin not found in database");
+        res.status(401);
         throw new Error("Admin not found");
       }
 

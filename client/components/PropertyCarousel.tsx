@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Autoplay } from 'swiper/modules'
 import { motion, AnimatePresence } from 'framer-motion'
-import axios from '../utils/axios'
+import api from '../utils/axios'
 import Link from 'next/link'
 import { BedDouble, Bath, MapPin  } from "lucide-react";
 
@@ -53,7 +53,7 @@ export default function PropertyCarousel() {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const res = await axios.get('/properties')
+        const res = await api.get('/properties')
         setProperties(res.data)
       } catch (err) {
         console.error('Failed to load properties', err)

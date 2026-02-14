@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import axios from "../../../../utils/axios";
+import api from "../../../../utils/axios";
 import Image from "next/image";
 import Link from "next/link";
 import { Mail, Phone, Globe, MapPin, Award, Home, MessageCircle } from "lucide-react";
@@ -45,7 +45,7 @@ export default function AgentDetailPage() {
   useEffect(() => {
     const fetchAgent = async () => {
       try {
-        const res = await axios.get(`/agents/public/${id}`);
+        const res = await api.get(`/agents/public/${id}`);
         setAgent(res.data);
       } catch (err) {
         console.error("Failed to fetch agent", err);

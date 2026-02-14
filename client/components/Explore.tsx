@@ -192,7 +192,13 @@ useEffect(() => {
               variants={cardVariants}
               className="proper w-full sm:w-full md:w-[48%] lg:w-[45%] h-[200px] md:h-auto gap-4 p-0 md:p-4 rounded-lg flex flex-col justify-center items-center text-center transition-colors duration-300 hover:text-[#00aeff]"
             >
-              <Image src={item.icon} alt={item.label} width={60} height={60} />
+              <Image 
+  src={item.icon} 
+  alt={item.label} 
+  width={60} 
+  height={60}
+  className="w-auto h-auto max-w-[60px] max-h-[60px]"
+/>
               <Link
                 href="/"
                 className="mt-2 transition-colors duration-300"
@@ -235,13 +241,14 @@ useEffect(() => {
               className="keen-slider__slide bg-white dark:bg-gray-900 shadow-md p-6 rounded-2xl text-center"
             >
               <div className="relative w-16 h-16 mx-auto mb-4">
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  className="rounded-full object-cover"
-                  fill
-                />
-              </div>
+  <Image
+    src={item.image}
+    alt={item.name}
+    className="rounded-full object-cover"
+    fill
+    sizes="64px"
+  />
+</div>
 
              <p className="text-gray-600 dark:text-gray-300 mb-4 italic">
   &ldquo;{item.message}&rdquo;

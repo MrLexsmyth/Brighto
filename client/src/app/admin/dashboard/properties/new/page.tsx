@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, FormEvent, useEffect } from "react";
-import axios from "../../../../../../utils/axios";
+import api from "../../../../../../utils/axios";
 import { useRouter } from "next/navigation";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -61,7 +61,7 @@ export default function CreateProperty() {
   useEffect(() => {
     const fetchAgents = async () => {
       try {
-        const res = await axios.get("/admin/agents", { withCredentials: true });
+        const res = await api.get("/admin/agents", { withCredentials: true });
         setAgents(res.data);
       } catch (err) {
         console.error("Failed to fetch agents", err);
@@ -119,7 +119,7 @@ export default function CreateProperty() {
         }
       });
 
-      await axios.post("/admin/properties", formData, {
+      await api.post("/admin/properties", formData, {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });

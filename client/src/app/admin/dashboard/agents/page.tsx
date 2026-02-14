@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "../../../../../utils/axios";
+import api from "../../../../../utils/axios";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -32,7 +32,7 @@ export default function AdminAgentsPage() {
   const fetchAgents = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("/admin/agents", { withCredentials: true });
+      const res = await api.get("/admin/agents", { withCredentials: true });
       setAgents(res.data);
     } catch (err) {
       console.error(err);

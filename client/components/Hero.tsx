@@ -10,14 +10,14 @@ const Hero = () => {
   return (
     <section className="relative w-full h-[100vh] mb-8 overflow-hidden">
       {/* Background Image */}
-      <Image
-        src={heroBg}
-        alt="Hero Background"
-        layout="fill"
-        objectFit="cover"
-        className="absolute top-0 left-0 z-0"
-        priority
-      />
+     <Image
+  src={heroBg}
+  alt="Hero Background"
+  fill
+  className="absolute top-0 left-0 z-0 object-cover"
+  priority
+  sizes="100vw"
+/>
 
       {/* Overlay */}
       <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-10" />

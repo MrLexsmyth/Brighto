@@ -1,6 +1,6 @@
 "use client";
 
-import axios from "../../../../../../utils/axios";
+import api from "../../../../../../utils/axios";
 import Image from "next/image";
 import { useEffect, useState, use } from "react";
 
@@ -48,7 +48,7 @@ export default function PropertyPage({ params }: Props) {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const res = await axios.get(`/admin/properties/slug/${slug}`, {
+        const res = await api.get(`/admin/properties/slug/${slug}`, {
           withCredentials: true,
         });
         setProperty(res.data);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, FormEvent, useEffect } from "react";
-import axios from "../../../../../../utils/axios";
+import api from "../../../../../../utils/axios";
 import { useRouter } from "next/navigation";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -91,7 +91,7 @@ export default function AddAgent() {
       if (form.propertyTypes) formData.append("propertyTypes", JSON.stringify(form.propertyTypes));
       if (form.photo) formData.append("photo", form.photo); 
 
-      await axios.post("/admin/agents", formData, {
+      await api.post("/admin/agents", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

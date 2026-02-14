@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import axios from "../../../../../../../utils/axios";
+import api from "../../../../../../../utils/axios";
 
 
 
@@ -26,7 +26,7 @@ export default function AdminBlogPreview() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const res = await axios.get(`/admin/blogs/slug/${slug}`);
+        const res = await api.get(`/admin/blogs/slug/${slug}`);
         setBlog(res.data);
       } catch (err) {
         console.error("Failed to fetch blog", err);

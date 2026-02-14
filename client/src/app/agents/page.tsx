@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "../../../utils/axios";
+import api from "../../../utils/axios";
 import { AxiosError } from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,7 +33,7 @@ export default function PublicAgents() {
   const fetchAgents = async (retryCount = 0) => {
     try {
       console.log("Fetching agents from API...");
-      const res = await axios.get("/agents/public/list");
+      const res = await api.get("/agents/public/list");
       console.log("Agents fetched successfully:", res.data);
       
       // Filter out any agents with malformed data

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import axios from "../../../../../../utils/axios";
+import api from "../../../../../../utils/axios";
 import Image from "next/image";
 
 
@@ -40,7 +40,7 @@ export default function AgentDetails() {
     const fetchAgent = async () => {
       try {
         const token = localStorage.getItem("adminToken");
-        const res = await axios.get(`/admin/agents/${id}`, {
+        const res = await api.get(`/admin/agents/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setAgent(res.data);

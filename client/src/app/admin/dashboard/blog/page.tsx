@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import axios from "../../../../../utils/axios"; // adjust path if needed
+import api from "../../../../../utils/axios"; // adjust path if needed
 import Link from "next/link";
 
 
@@ -23,7 +23,7 @@ export default function AdminBlogList() {
 
   const fetchBlogs = async () => {
     try {
-      const res = await axios.get("/admin/blogs"); // your admin API route
+      const res = await api.get("/admin/blogs"); // your admin API route
       setBlogs(res.data);
     } catch (err) {
       console.error("Failed to fetch blogs", err);

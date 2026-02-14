@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import axios from '../../../utils/axios'
+import api from '../../../utils/axios'
 import { motion } from 'framer-motion'
 import { Search, SlidersHorizontal, MapPin, Bed, Home, Ruler, Bath } from 'lucide-react'
 
@@ -36,7 +36,7 @@ export default function ListingsPage() {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const res = await axios.get('/properties')
+        const res = await api.get('/properties')
         setProperties(res.data)
       } catch (err) {
         console.error('Failed to load properties', err)

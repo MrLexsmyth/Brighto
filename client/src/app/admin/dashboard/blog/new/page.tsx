@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import slugify from "slugify";
-import axios from "../../../../../../utils/axios";
+import api from "../../../../../../utils/axios";
 
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -89,7 +89,7 @@ export default function AdminBlogForm() {
       data.append("status", form.status);
       if (form.image) data.append("image", form.image);
 
-      await axios.post("/admin/blogs", data, {
+      await api.post("/admin/blogs", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import axios from "../../../utils/axios";
+import api from "../../../utils/axios";
 
 
 
@@ -14,7 +14,7 @@ type Blog = {
 };
 
 async function getBlogs(): Promise<Blog[]> {
-  const res = await axios.get("/blogs");
+  const res = await api.get("/blogs");
   return res.data;
 }
 

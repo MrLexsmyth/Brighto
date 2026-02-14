@@ -1,3 +1,4 @@
+
 import axios from "axios";
 
 const api = axios.create({
@@ -7,5 +8,13 @@ const api = axios.create({
       : process.env.NEXT_PUBLIC_SERVER_URL,
   withCredentials: true, 
 });
+
+// Add token from localStorage if it exists
+if (typeof window !== 'undefined') {
+  const token = localStorage.getItem("adminToken");
+  if (token) {
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  }
+}
 
 export default api;

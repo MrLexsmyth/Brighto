@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "../../../../../utils/axios";
+import api from "../../../../../utils/axios";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -27,7 +27,7 @@ export default function PropertiesList() {
 
   const fetchProperties = async () => {
     try {
-      const res = await axios.get("/admin/properties", { withCredentials: true });
+      const res = await api.get("/admin/properties", { withCredentials: true });
       setProperties(res.data);
     } catch (err) {
       console.error(err);
@@ -43,7 +43,7 @@ export default function PropertiesList() {
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this property?")) return;
     try {
-      await axios.delete(`/admin/properties/${id}`, { withCredentials: true });
+      await api.delete(`/admin/properties/${id}`, { withCredentials: true });
       setProperties(properties.filter((p) => p._id !== id));
     } catch (err) {
       console.error(err);

@@ -27,15 +27,14 @@ const Newletter = () => {
   </div>
 </div>
       <div className="w-full md:w-1/2 h-64 md:h-full relative">
-   <Image
-  src={NewsletterImage}
-  alt="Newsletter"
-  fill
-  className="object-cover"
-  priority
-/>
-
-      </div>
+  <Image
+    src={NewsletterImage}
+    alt="Newsletter"
+    fill
+    className="object-cover"
+    sizes="(max-width: 768px) 100vw, 50vw"
+  />
+</div>
     </div>
   );
 };
