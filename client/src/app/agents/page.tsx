@@ -65,11 +65,9 @@ export default function PublicAgents() {
       } else {
         setError(axiosError.message || "Failed to load agents");
       }
-    } finally {
-      if (retryCount >= 1) {
-        setLoading(false);
-      }
-    }
+   } finally {
+  setLoading(false);
+}
   };
 
   fetchAgents();
