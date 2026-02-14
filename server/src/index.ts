@@ -79,13 +79,13 @@ app.use((req, res, next) => {
 });
 
 // ================= ROUTES =================
-app.use("/api/admin", adminRoutes);
-app.use("/api/admin/properties", adminPropertyRoutes);
+// app.use("/api/admin", adminRoutes);
+// app.use("/api/admin/properties", adminPropertyRoutes);
 app.use("/api/properties", publicPropertyRoutes);
-app.use("/api/admin/blogs", adminBlogRoutes);
+// app.use("/api/admin/blogs", adminBlogRoutes);
 app.use("/api/blogs", publicBlogRoutes);
 app.use("/api/agents", agentRoutes);
-app.use("/api/admin/agents", adminAgentRoutes);
+// app.use("/api/admin/agents", adminAgentRoutes);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
