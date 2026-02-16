@@ -90,7 +90,7 @@ export default function PropertyCarousel() {
         spaceBetween={20}
         slidesPerView={3}
         navigation
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        autoplay={{ delay: 8000, disableOnInteraction: false }}
         breakpoints={{
           0: { slidesPerView: 1 },
           640: { slidesPerView: 2 },

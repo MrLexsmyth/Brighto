@@ -83,15 +83,28 @@ function ImageGalleryModal({
         className="relative w-full max-w-5xl h-[80vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        <Image
-          src={images[currentIndex]}
-          alt={`Image ${currentIndex + 1}`}
-          fill
-          className="object-contain"
-          priority
-          sizes="(max-width: 768px) 100vw, 1920px"
-        />
+     <div className="w-full h-[500px] sm:h-[600px] flex flex-col">
 
+  <div className=" mb-4">
+    
+      <ShareButton />
+
+  </div>
+
+  {/* Image */}
+
+  <div className=" relative flex-1">
+  <Image
+    src={images[currentIndex]}
+    alt={`Image ${currentIndex + 1}`}
+    fill
+    className="object-cover"
+    priority={currentIndex === 0}
+    sizes="(max-width: 768px) 100vw, 1920px"
+  />
+</div>
+
+</div>
         {/* Navigation arrows */}
         <button
           onClick={prevImage}
@@ -190,10 +203,12 @@ export default function PublicPropertyPage() {
         </div>
 
         <p className="text-3xl font-bold text-[#004274]">
+
           ₦{property.price?.toLocaleString() ||
             property.pricePerNight?.toLocaleString() ||
             "On request"}
-          {(property.price || property.pricePerNight) && ".00"}
+          {(property.price || property.pricePerNight) && ".00"} 
+          
         </p>
         <div className="hidden md:block">
           <ShareButton />
