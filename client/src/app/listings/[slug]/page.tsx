@@ -1,5 +1,6 @@
 "use client";
 
+import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
@@ -182,6 +183,24 @@ export default function PublicPropertyPage() {
 
   const remainingImages = property.images.length > 5 ? property.images.length - 5 : 0;
 
+  <Head>
+  <title>{property.title}</title>
+  <meta name="description" content={property.description.slice(0, 160)} />
+  
+  {/* Open Graph */}
+  <meta property="og:title" content={property.title} />
+  <meta property="og:description" content={property.description.slice(0, 70)} />
+  <meta property="og:image" content={property.images[0]} />
+  <meta property="og:url" content={typeof window !== "undefined" ? window.location.href : ""} />
+  <meta property="og:type" content="website" />
+
+  {/* Twitter */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={property.title} />
+  <meta name="twitter:description" content={property.description.slice(0, 160)} />
+  <meta name="twitter:image" content={property.images[0]} />
+</Head>
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
       {/* Title and Location */}
@@ -211,7 +230,13 @@ export default function PublicPropertyPage() {
           
         </p>
         <div className="hidden md:block">
-          <ShareButton />
+          <ShareButton
+          image={property.images[0]}
+          title={property.title}
+          description={property.description.slice(0, 70)}
+  
+/>
+
         </div>
       </div>
 
@@ -273,7 +298,12 @@ export default function PublicPropertyPage() {
       </div>
 
       <div className="block sm:hidden mt-4 mb-4">
-        <ShareButton />
+        <ShareButton
+  title={property.title}
+  description={property.description.slice(0, 70)}
+  image={property.images[0]}
+/>
+
       </div>
 
       {/* Property Details Grid */}
