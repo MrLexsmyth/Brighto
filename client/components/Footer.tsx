@@ -1,6 +1,10 @@
 import React from 'react'
 import Image from "next/image"
 import Link from 'next/link'
+import ScrollToTop from "../components/ScrollToTop";
+
+<ScrollToTop />
+
 
 const Footer = () => {
   return (
@@ -79,6 +83,7 @@ const Footer = () => {
       <div className="mt-10 border-t pt-6 text-center text-xs text-gray-500">
         &copy; {new Date().getFullYear()} BrightO Estate. All rights reserved. 
       </div>
+      <ScrollToTop />
     </footer>
   )
 }

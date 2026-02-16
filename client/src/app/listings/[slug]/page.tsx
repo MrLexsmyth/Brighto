@@ -182,6 +182,11 @@ export default function PublicPropertyPage() {
   }
 
   const remainingImages = property.images.length > 5 ? property.images.length - 5 : 0;
+  const stripHtml = (html: string) => {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || "";
+};
+
 
   <Head>
   <title>{property.title}</title>
@@ -233,7 +238,7 @@ export default function PublicPropertyPage() {
           <ShareButton
           image={property.images[0]}
           title={property.title}
-          description={property.description.slice(0, 70)}
+          description={stripHtml(property.description.slice(0, 70))}
   
 />
 
@@ -300,7 +305,7 @@ export default function PublicPropertyPage() {
       <div className="block sm:hidden mt-4 mb-4">
         <ShareButton
   title={property.title}
-  description={property.description.slice(0, 70)}
+  description={stripHtml(property.description.slice(0, 70))}
   image={property.images[0]}
 />
 

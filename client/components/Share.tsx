@@ -11,8 +11,8 @@ interface ShareButtonProps {
 }
 
 const shareLinks = {
-  whatsapp: (image?: string,  title?: string, description?: string, url?: string) => {
-    const text = `${title || ""}\n${url || ""}\n${description || ""}${image ? `\n${image}` : ""}`;
+  whatsapp: ( title?: string, description?: string, url?: string) => {
+    const text = `${title || ""}\n${url || ""}\n${description || ""}`.trim();
     return `https://wa.me/?text=${encodeURIComponent(text)}`;
   },
   facebook: (url: string, title: string, description: string, image?: string) =>
