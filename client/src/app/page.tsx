@@ -1,14 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { motion, Variants } from 'framer-motion';
 import PropertyCarousel from '../../components/PropertyCarousel';
 import Explore from '../../components/Explore';
 import Newletter from '../../components/Newletter';
 import Hero from '../../components/Hero';
 import FAQComponent from '../../components/FAQ';
-
-import PropertyVideoSlider from '../../components/PropertiesVideo';
+import PropertyCarouselSkeleton from "../../components/PropertyCarouselSkeleton";
+// import PropertyVideoSlider from '../../components/PropertiesVideo';
 import Whatwedo from '../../components/Whatwedo';
 
 
@@ -65,15 +65,16 @@ export default function Home() {
         </p>
       </motion.div>
 
-    `  {/* Property Carousel */}
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={fadeInUp}
-      >
-        <PropertyCarousel />
-      </motion.div>`
+ <motion.div
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.2 }}
+  variants={fadeInUp}
+>
+  <Suspense fallback={<PropertyCarouselSkeleton />}>
+    <PropertyCarousel />
+  </Suspense>
+</motion.div>
     
 
       {/* Explore Section */}
@@ -173,14 +174,14 @@ export default function Home() {
         <FAQComponent />
       </motion.div>
 
-        <motion.div
+        {/* <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
         variants={fadeInUp}
       >
         <PropertyVideoSlider />
-      </motion.div>
+      </motion.div> */}
 
       {/* Newsletter Section */}
       <motion.div
