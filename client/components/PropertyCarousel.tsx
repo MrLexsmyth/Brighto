@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Autoplay } from 'swiper/modules'
 import { motion, AnimatePresence } from 'framer-motion'
+
 import api from '../utils/axios'
 import Link from 'next/link'
 import { BedDouble, Bath, MapPin  } from "lucide-react";
@@ -25,7 +26,16 @@ interface Property {
   price?: number
   category: string
   pricePerNight?: number
-  location: string
+   location: {
+    address: string;
+    city: string;
+    state: string;
+    area?: string;
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
+  };
   bedrooms?: number
   bathrooms?: number
   images: string[]
@@ -107,10 +117,16 @@ export default function PropertyCarousel() {
         {truncate(property.title)}
       </h3>
 
-      <h4 className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
-  <MapPin size={16} className="text-red-500" />
-  {capitalize(property.location)}
-</h4>
+       <div className="flex flex-col gap-1">
+            <h4 className="flex items-center gap-1 text-sm text-gray-600">
+              <MapPin size={16} className="text-red-500" />
+              {property.location.area && `${property.location.area}, `}
+              {property.location.city}, {property.location.state}
+            </h4>
+            <p className="text-xs text-gray-500 ml-5">
+              {property.location.address}
+            </p>
+          </div>
 
 
       <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -192,8 +208,8 @@ export default function PropertyCarousel() {
                 </p>
 
                 <p className="text-sm font-medium">
-                  {capitalize(selectedProperty.location)}
-                </p>
+             {capitalize(selectedProperty.location.address)}
+            </p>
 
                 <div className="flex justify-between text-sm font-medium">
                   <span>

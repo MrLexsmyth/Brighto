@@ -14,8 +14,17 @@ export interface IProperty extends Document {
   price?: number;
   pricePerNight?: number;
 
-  location: string;
-  address?: string;
+  location: {
+    address: string;      // Full address
+    city: string;         // e.g., "Lagos"
+    state: string;        // e.g., "Lagos State"
+    area?: string;        // e.g., "Lekki", "Victoria Island"
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
+  };
+
   size?: string;
 
   bedrooms?: number;
@@ -25,7 +34,7 @@ export interface IProperty extends Document {
 
   status: "pending" | "approved" | "rejected";
 
-  agent: mongoose.Types.ObjectId; // ← FIXED NAME
+  agent: mongoose.Types.ObjectId;
 
   slug: string;
 }
@@ -50,8 +59,17 @@ const propertySchema = new Schema<IProperty>(
     price: Number,
     pricePerNight: Number,
 
-    location: { type: String, required: true },
-    address: String,
+    location: {
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      state: { type: String, required: true },
+      area: String,
+      coordinates: {
+        lat: { type: Number, required: true },
+        lng: { type: Number, required: true }
+      }
+    },
+
     size: String,
 
     bedrooms: Number,
@@ -90,5 +108,8 @@ propertySchema.pre("save", function (next) {
   }
   next();
 });
+
+// Create index for geospatial queries (optional but useful for "near me" searches)
+propertySchema.index({ "location.coordinates": "2dsphere" });
 
 export default mongoose.model<IProperty>("Property", propertySchema);

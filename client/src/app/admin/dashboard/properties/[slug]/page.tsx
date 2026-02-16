@@ -23,7 +23,16 @@ interface Property {
   category: string;
   price?: number;
   pricePerNight?: number;
-  location: string;
+  location: {
+    address: string;
+    city: string;
+    state: string;
+    area?: string;
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
+  };
   address?: string;
   size?: string;
   bedrooms?: number;
@@ -92,7 +101,7 @@ export default function PropertyPage({ params }: Props) {
         <li><strong>Category:</strong> {property.category}</li>
         {property.price && <li><strong>Price:</strong> ₦{property.price.toLocaleString()}.00</li>}
         {property.pricePerNight && <li><strong>Price/Night:</strong> ₦{property.pricePerNight.toLocaleString()}.00</li>}
-        <li><strong>Location:</strong> {property.location}</li>
+        <li><strong>Location:</strong> {property.location.area && `${property.location.area}, `}{property.location.city}, {property.location.state}</li>
         {property.address && <li><strong>Address:</strong> {property.address}</li>}
         {property.size && <li><strong>Size:</strong> {property.size}</li>}
         {property.bedrooms && <li><strong>Bedrooms:</strong> {property.bedrooms}</li>}

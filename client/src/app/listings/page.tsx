@@ -18,7 +18,16 @@ interface Property {
   size?: string;
   pricePerNight?: number
   category: string
-  location: string
+ location: {
+    address: string;
+    city: string;
+    state: string;
+    area?: string;
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
+  };
   bedrooms?: number
    bathrooms?: number;
   images: string[]
@@ -49,8 +58,8 @@ export default function ListingsPage() {
   }, [])
 
   const filteredProperties = properties.filter(property =>
-    property.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    property.location.toLowerCase().includes(searchTerm.toLowerCase())
+    property.title.toLowerCase().includes(searchTerm.toLowerCase()) 
+   
   )
 
   if (loading) {
@@ -175,7 +184,7 @@ export default function ListingsPage() {
                     {/* Location */}
                     <div className="mb-3 flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
                       <MapPin className="h-4 w-4" />
-                      <span>{capitalize(property.location)}</span>
+                      <span>{(property.location.area || property.location.address)}</span>
                     </div>
                     <div className='flex gap-4'>
                          {/* Bedrooms (if available) */}

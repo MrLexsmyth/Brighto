@@ -14,7 +14,16 @@ interface Property {
   category: string;
   price?: number;
   pricePerNight?: number;
-  location: string;
+   location: {
+    address: string;
+    city: string;
+    state: string;
+    area?: string;
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
+  };
   size: string;
   images: string[];
   createdAt: string;
@@ -81,7 +90,7 @@ export default function PropertiesList() {
             <p>{prop.type} - {prop.category}</p>
             {prop.price && <p>₦{prop.price.toLocaleString()}</p>}
             {prop.pricePerNight && <p>₦{prop.pricePerNight.toLocaleString()} / night</p>}
-            <p>{prop.location}</p>
+            <p>{prop.location.area && `${prop.location.area}, `}{prop.location.city}, {prop.location.state}</p>
             <p>{prop.size}</p>
             <p className="text-xs text-gray-500">
               {new Date(prop.createdAt).toLocaleDateString()}

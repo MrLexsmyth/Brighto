@@ -57,20 +57,12 @@ app.use(
   })
 );
 
-// Handle preflight requests explicitly
-app.options('*', cors({
-  origin: allowedOrigins,
-  credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
-}));
-
 // 🔍 DEBUGGING MIDDLEWARE
 app.use((req, res, next) => {
   console.log("\n" + "=".repeat(50));
   console.log(`📨 ${req.method} ${req.path}`);
   console.log("📨 Full URL:", req.originalUrl);
   console.log("📨 Origin:", req.headers.origin);
-  console.log("📨 Authorization:", req.headers.authorization); // ✅ Added this
   console.log("📨 Content-Type:", req.headers["content-type"]);
   console.log("📨 Cookies:", req.cookies);
   console.log("📨 Secure:", req.secure);
@@ -100,7 +92,7 @@ app.get("/api/health", (req, res) => {
 // ================= ERROR HANDLER =================
 app.use(
   (
-    err: Error,
+    err: any,
     req: express.Request,
     res: express.Response,
     next: express.NextFunction

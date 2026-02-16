@@ -22,16 +22,38 @@ export const createProperty = asyncHandler(
         category,
         price,
         pricePerNight,
-        location,
-        address,
+        location, // This will be a JSON string from FormData
         size,
         bedrooms,
         bathrooms,
         agentId,
       } = req.body;
 
-      // ✅ correct validation
-      if (!title || !description || !type || !category || !location || !agentId) {
+      // Parse location from JSON string
+      let locationObj;
+      try {
+        locationObj = typeof location === 'string' ? JSON.parse(location) : location;
+        console.log("📍 Parsed location:", locationObj);
+      } catch (error) {
+        res.status(400);
+        throw new Error("Invalid location data format");
+      }
+
+      // Validate location structure
+      if (!locationObj || !locationObj.address || !locationObj.city || !locationObj.state) {
+        res.status(400);
+        throw new Error("Location must include address, city, and state");
+      }
+
+      if (!locationObj.coordinates || 
+          typeof locationObj.coordinates.lat !== 'number' || 
+          typeof locationObj.coordinates.lng !== 'number') {
+        res.status(400);
+        throw new Error("Location must include valid coordinates (lat, lng)");
+      }
+
+      // Validate required fields
+      if (!title || !description || !type || !category || !agentId) {
         res.status(400);
         throw new Error("Missing required fields");
       }
@@ -44,6 +66,7 @@ export const createProperty = asyncHandler(
 
       const files = req.files as Express.Multer.File[];
 
+      // Upload images to Cloudinary
       const images: string[] = await Promise.all(
         files.map((file) => uploadToCloudinary(file.buffer))
       );
@@ -57,14 +80,14 @@ export const createProperty = asyncHandler(
         slug = `${slugBase}-${count++}`;
       }
 
-      // ✅ find agent using agentId
+      // Find agent
       const foundAgent = await Agent.findById(agentId);
       if (!foundAgent) {
         res.status(404);
         throw new Error("Agent not found");
       }
 
-      // ✅ create property with correct field name
+      // Create property with location object
       const property = await Property.create({
         title,
         description,
@@ -72,13 +95,12 @@ export const createProperty = asyncHandler(
         category,
         price: price ? Number(price) : undefined,
         pricePerNight: pricePerNight ? Number(pricePerNight) : undefined,
-        location,
-        address,
+        location: locationObj, // Use the parsed location object
         size,
         bedrooms: bedrooms ? Number(bedrooms) : undefined,
         bathrooms: bathrooms ? Number(bathrooms) : undefined,
         images,
-         agent: foundAgent._id,
+        agent: foundAgent._id,
         slug,
       });
 
@@ -87,8 +109,10 @@ export const createProperty = asyncHandler(
         $push: { properties: property._id },
       });
 
+      // Clear Redis cache
       await redisClient.del("all_public_properties");
 
+      console.log("✅ Property created successfully:", property._id);
       res.status(201).json(property);
     } catch (error: any) {
       console.error("❌ CREATE PROPERTY ERROR:", error);
@@ -100,12 +124,89 @@ export const createProperty = asyncHandler(
   }
 );
 
+// -------------------- UPDATE PROPERTY --------------------
+export const updateProperty = asyncHandler(
+  async (req: AdminRequest, res: Response) => {
+    try {
+      const { id } = req.params;
+      const property = await Property.findById(id);
 
+      if (!property) {
+        res.status(404);
+        throw new Error("Property not found");
+      }
+
+      const {
+        title,
+        description,
+        type,
+        category,
+        price,
+        pricePerNight,
+        location,
+        size,
+        bedrooms,
+        bathrooms,
+        status,
+        agentId,
+      } = req.body;
+
+      // Parse location if it's a string
+      let locationObj = location;
+      if (typeof location === 'string') {
+        try {
+          locationObj = JSON.parse(location);
+        } catch (error) {
+          res.status(400);
+          throw new Error("Invalid location data format");
+        }
+      }
+
+      // Update basic fields
+      if (title) property.title = title;
+      if (description) property.description = description;
+      if (type) property.type = type;
+      if (category) property.category = category;
+      if (price !== undefined) property.price = Number(price);
+      if (pricePerNight !== undefined) property.pricePerNight = Number(pricePerNight);
+      if (locationObj) property.location = locationObj;
+      if (size) property.size = size;
+      if (bedrooms !== undefined) property.bedrooms = Number(bedrooms);
+      if (bathrooms !== undefined) property.bathrooms = Number(bathrooms);
+      if (status) property.status = status;
+      if (agentId) property.agent = agentId;
+
+      // Handle new images if uploaded
+      if (req.files && Array.isArray(req.files) && req.files.length > 0) {
+        const files = req.files as Express.Multer.File[];
+        const uploadedImages: string[] = await Promise.all(
+          files.map((file) => uploadToCloudinary(file.buffer))
+        );
+        property.images = uploadedImages;
+      }
+
+      const updatedProperty = await property.save();
+
+      // Clear caches
+      await redisClient.del("all_public_properties");
+      await redisClient.del(`public_property:${property.slug}`);
+
+      res.json(updatedProperty);
+    } catch (error: any) {
+      console.error("❌ UPDATE PROPERTY ERROR:", error);
+      res.status(500).json({
+        message: error?.message ?? "Update property failed",
+      });
+    }
+  }
+);
 
 // -------------------- GET ALL PROPERTIES (ADMIN) --------------------
 export const getAllProperties = asyncHandler(
   async (req: AdminRequest, res: Response) => {
-    const properties = await Property.find().sort({ createdAt: -1 });
+    const properties = await Property.find()
+      .populate("agent", "name email")
+      .sort({ createdAt: -1 });
     res.json(properties);
   }
 );
@@ -134,7 +235,7 @@ export const getPropertyBySlug = asyncHandler(
     const slug = req.params.slug;
 
     const property = await Property.findOne({ slug })
-      .populate("agent", "name email title company phone"); // ✅ populate agent
+      .populate("agent", "name email title company phone");
 
     if (!property) {
       res.status(404);
@@ -159,7 +260,7 @@ export const getPublicPropertyBySlug = asyncHandler(
     }
 
     const property = await Property.findOne({ slug, status: "approved" })
-      .populate("agent", "name email title company phone photo"); // ✅ populate agent
+      .populate("agent", "name email title company phone photo");
 
     if (!property) {
       res.status(404);
@@ -173,7 +274,6 @@ export const getPublicPropertyBySlug = asyncHandler(
   }
 );
 
-
 // GET ALL APPROVED PROPERTIES (PUBLIC)
 export const getAllPublicProperties = asyncHandler(
   async (req: Request, res: Response) => {
@@ -186,7 +286,7 @@ export const getAllPublicProperties = asyncHandler(
     }
 
     const properties = await Property.find({ status: "approved" })
-      .populate("agent", "name email title company phone photo") // ✅ fixed
+      .populate("agent", "name email title company phone photo")
       .sort({ createdAt: -1 });
 
     await redisClient.setEx(cacheKey, 600, JSON.stringify(properties));
@@ -195,3 +295,46 @@ export const getAllPublicProperties = asyncHandler(
   }
 );
 
+// -------------------- SEARCH/FILTER PROPERTIES (PUBLIC) --------------------
+export const searchProperties = asyncHandler(
+  async (req: Request, res: Response) => {
+    const {
+      type,
+      category,
+      city,
+      state,
+      area,
+      minPrice,
+      maxPrice,
+      bedrooms,
+      bathrooms,
+    } = req.query;
+
+    // Build filter object
+    const filter: any = { status: "approved" };
+
+    if (type) filter.type = type;
+    if (category) filter.category = category;
+    if (city) filter["location.city"] = city;
+    if (state) filter["location.state"] = state;
+    if (area) filter["location.area"] = { $regex: area, $options: "i" }; // Case-insensitive
+
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = Number(minPrice);
+      if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
+    if (bedrooms) filter.bedrooms = { $gte: Number(bedrooms) };
+    if (bathrooms) filter.bathrooms = { $gte: Number(bathrooms) };
+
+    const properties = await Property.find(filter)
+      .populate("agent", "name email phone")
+      .sort({ createdAt: -1 });
+
+    res.json({
+      count: properties.length,
+      properties,
+    });
+  }
+);

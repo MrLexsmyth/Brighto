@@ -6,6 +6,7 @@ import {
   getAllProperties,
   deleteProperty,
   getPropertyBySlug,
+  updateProperty,
 } from "../controllers/propertyController";
 
 const router = express.Router();
@@ -23,6 +24,8 @@ router.delete("/:id", protect, deleteProperty);
 
 // Get property by slug (admin)
 router.get("/slug/:slug", protect, getPropertyBySlug);
+
+router.put("/:id", protect, upload.array("images", 10), updateProperty);
 
 
 
