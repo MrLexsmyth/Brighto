@@ -20,7 +20,7 @@ const Hero = () => {
 />
 
       {/* Overlay */}
-      <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-10" />
+      <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-10 " />
 
       {/* Text Content */}
       <div className="relative z-20 h-full flex flex-col justify-center items-start text-left px-4 md:px-20 text-white">

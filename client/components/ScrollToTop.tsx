@@ -31,7 +31,7 @@ export default function ScrollToTop() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 40, scale: 0.8 }}
           transition={{ duration: 0.25 }}
-          className="fixed bottom-6 right-6 z-50 p-3 rounded-lg bg-[#004274] text-white shadow-lg hover:scale-105 active:scale-95 transition"
+          className="animate-bounceUp fixed bottom-6  right-6 z-50 p-3 rounded-lg bg-[#004274] text-white shadow-lg hover:scale-105 active:scale-95 transition"
           aria-label="Scroll to top"
         >
           <ArrowUp size={20} />

@@ -66,6 +66,15 @@ const config: Config = {
     shimmer: "shimmer 1.5s infinite",
   },
   },
+    keyframes: {
+        bounceUp: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-14px)" },
+        },
+      },
+      animation: {
+        bounceUp: "bounceUp 1.7s ease infinite",
+      },
   
   plugins: [animate, typography],
 };

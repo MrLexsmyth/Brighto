@@ -6,6 +6,7 @@ import PropertyCarousel from '../../components/PropertyCarousel';
 import Explore from '../../components/Explore';
 import Newletter from '../../components/Newletter';
 import Hero from '../../components/Hero';
+import Anima from '../../components/Anima';
 import FAQComponent from '../../components/FAQ';
 import PropertyCarouselSkeleton from "../../components/PropertyCarouselSkeleton";
 // import PropertyVideoSlider from '../../components/PropertiesVideo';
@@ -117,6 +118,14 @@ export default function Home() {
         variants={fadeInUp}
       >
         <Explore />
+      </motion.div>
+         <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={fadeInUp}
+      >
+        <Anima />
       </motion.div>
 
       

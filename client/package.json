@@ -12,6 +12,7 @@
   "dependencies": {
     "@floating-ui/dom": "^1.7.5",
     "@lordicon/element": "^1.11.0",
+    "@lottiefiles/dotlottie-react": "^0.18.1",
     "@radix-ui/react-slot": "^1.2.3",
     "@react-google-maps/api": "^2.20.8",
     "@tiptap/core": "^3.19.0",
