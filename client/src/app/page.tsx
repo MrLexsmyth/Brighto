@@ -49,7 +49,7 @@ export default function Home() {
       </motion.div>
        {/* Hero Text */}
       <motion.div
-        className="hero-text text-center px-4 mt-6"
+        className="hero-text text-center px-4 mt-4"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}

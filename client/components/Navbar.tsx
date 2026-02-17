@@ -8,6 +8,7 @@ import { Menu, X, Sun, Moon } from 'lucide-react';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   // Initialize theme from localStorage
   useEffect(() => {
@@ -18,6 +19,16 @@ export default function Navbar() {
     }
   }, []);
 
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50); // Change threshold as needed
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const toggleDarkMode = () => {
     const newMode = !darkMode;
     setDarkMode(newMode);
@@ -26,7 +37,11 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="font-jakarta w-full bg-white dark:bg-gray-900 text-darkblue shadow-md fixed top-0 z-50">
+    <nav
+      className={` w-full fixed top-0 z-50 shadow-md transition-colors duration-300 ${
+        scrolled ? "text-white bg-[#004274]" : "text-white "
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">

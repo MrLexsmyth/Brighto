@@ -69,7 +69,7 @@ export default function RootLayout({
          
         <Script src="https://cdn.lordicon.com/lordicon.js" strategy="beforeInteractive" />
         <Navbar  />
-        <main className="mt-16">
+        <main className="">
           {children}
         </main>
         <Footer />
