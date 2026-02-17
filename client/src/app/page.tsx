@@ -10,6 +10,7 @@ import FAQComponent from '../../components/FAQ';
 import PropertyCarouselSkeleton from "../../components/PropertyCarouselSkeleton";
 // import PropertyVideoSlider from '../../components/PropertiesVideo';
 import Whatwedo from '../../components/Whatwedo';
+import Image from 'next/image';
 
 
 
@@ -33,6 +34,13 @@ const staggerContainer: Variants = {
     },
   },
 };
+
+const affiliates = [
+    { photo: "/aff.png" },
+    { photo: "/afff.png" },
+    { photo: "/affffff.png" },
+    { photo: "/affff.png" },
+  ];
 
 export default function Home() {
   return (
@@ -74,7 +82,32 @@ export default function Home() {
     <PropertyCarousel />
   </Suspense>
 </motion.div>
-    
+  {/* Affiliates Section */}
+<div className="py-12 px-4 sm:px-6 lg:px-16 mt-4">
+  <h1 className="text-center text-2xl sm:text-3xl font-bold mb-12 uppercase text-black">
+    Our Affiliates
+  </h1>
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 justify-items-center items-center">
+    {affiliates.map((affi, index) => (
+      <motion.div
+        key={index}
+      initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.2 }}
+  variants={fadeInUp}
+      >
+        <Image
+          src={affi.photo}
+          alt=""
+          width={130}
+          height={130}
+          className="w-[130px] h-[130px] object-fill rounded-md"
+        />
+      </motion.div>
+    ))}
+  </div>
+</div>
+
 
       {/* Explore Section */}
       <motion.div
