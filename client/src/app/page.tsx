@@ -85,10 +85,10 @@ export default function Home() {
 </motion.div>
   {/* Affiliates Section */}
 <div className="py-12 px-4 sm:px-6 lg:px-16 mt-4">
-  <h1 className="text-center text-2xl sm:text-3xl font-bold mb-12 uppercase text-black">
+  <h1 className="text-center text-2xl sm:text-3xl font-bold mb-6 uppercase text-black">
     Our Affiliates
   </h1>
-  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 justify-items-center items-center">
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 justify-items-center items-center">
     {affiliates.map((affi, index) => (
       <motion.div
         key={index}
