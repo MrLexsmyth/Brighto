@@ -11,19 +11,25 @@ export default function NotFound() {
   const [countdown, setCountdown] = useState(10);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          router.push("/");
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+  const timer = setInterval(() => {
+    setCountdown((prev) => {
+      if (prev <= 1) {
+        clearInterval(timer);
+        return 0; // Just return 0, don't push here
+      }
+      return prev - 1;
+    });
+  }, 1000);
 
-    return () => clearInterval(timer);
-  }, [router]);
+  return () => clearInterval(timer);
+}, []);
+
+// Separate useEffect to handle redirect when countdown reaches 0
+useEffect(() => {
+  if (countdown === 0) {
+    router.push("/");
+  }
+}, [countdown, router]);
 
   const quickLinks = [
     { label: "Browse Listings", href: "/listings", icon: <Search className="w-4 h-4" /> },
