@@ -40,7 +40,7 @@ export default function ContactUs() {
   };
 
   return (
-    <div>
+    <div className='mt-12'>
      
     <section className="px-6 py-16 max-w-7xl mx-auto">
       {/* ---------- Heading ---------- */}
