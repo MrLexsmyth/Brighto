@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @import 'keen-slider/keen-slider.min.css'; */
-
-
 @layer utilities {
   .animate-slide-down {
     animation: slideDown 0.3s ease-out;
@@ -25,9 +22,6 @@ html,
 body {
   scroll-behavior: smooth;
 }
-
-
-
 
 .hero-text {
    text-align: center;
@@ -77,6 +71,18 @@ color: rgb(101, 101, 101);
   }
 }
 
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 .proper {
   position: relative;
   overflow: hidden;
@@ -100,10 +106,6 @@ color: rgb(101, 101, 101);
 .proper:hover::before {
   height: 100%;
 }
-
-
-
-
 
 .section-heading {
   text-align: center;

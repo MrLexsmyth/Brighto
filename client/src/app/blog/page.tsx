@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import api from "../../../utils/axios";
 
-
+// Add this line to prevent build-time rendering
+export const dynamic = 'force-dynamic';
 
 type Blog = {
   _id: string;
@@ -39,10 +40,8 @@ export default async function BlogPage() {
   // Featured first blog
   const firstBlog = blogs[0];
 
-
   // First 10 blogs excluding the first one
- const first20Blogs = blogs.slice(0, 10).slice(1);
-
+  const first20Blogs = blogs.slice(0, 10).slice(1);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -69,6 +68,7 @@ export default async function BlogPage() {
                 height={400}
                 className="rounded-lg object-cover w-full h-64 md:h-80"
                 priority
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
           )}
@@ -90,8 +90,7 @@ export default async function BlogPage() {
             </p>
 
             <p className="text-gray-700 leading-relaxed mb-6">
-              <span className="md:hidden">{renderSnippet(firstBlog.content, 25)}</span>
-              <span className="hidden md:block">{renderSnippet(firstBlog.content, 25)}</span>
+              {renderSnippet(firstBlog.content, 25)}
             </p>
 
             <div className="flex items-center text-[#004274] font-semibold">
@@ -110,53 +109,53 @@ export default async function BlogPage() {
         <div className="h-1 w-20 bg-[#004274] mt-2 rounded"></div>
       </div>
 
-    
-{/* First 10 Blogs Grid */}
-<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-  {first20Blogs.map((blog) => (
-    <Link
-      key={blog._id}
-      href={`/blog/view/${blog.slug}`}
-      className="group flex flex-col bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100"
-    >
-      {blog.images?.[0] && (
-        <div className="w-full h-48 overflow-hidden bg-gray-100 flex-shrink-0">
-          <Image
-            src={blog.images[0]}
-            alt={blog.title}
-            width={400}
-            height={300}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        </div>
-      )}
+      {/* First 10 Blogs Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {first20Blogs.map((blog) => (
+          <Link
+            key={blog._id}
+            href={`/blog/view/${blog.slug}`}
+            className="group flex flex-col bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100"
+          >
+            {blog.images?.[0] && (
+              <div className="w-full h-48 overflow-hidden bg-gray-100 flex-shrink-0">
+                <Image
+                  src={blog.images[0]}
+                  alt={blog.title}
+                  width={400}
+                  height={300}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </div>
+            )}
 
-      <div className="p-6 flex-1 flex flex-col">
-        <h2 className="text-lg font-semibold mb-3 group-hover:text-[#004274] transition-colors line-clamp-2">
-          {blog.title}
-        </h2>
-        
-        <p className="text-gray-500 text-xs mb-3 flex items-center gap-2">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          {new Date(blog.createdAt).toDateString()}
-        </p>
+            <div className="p-6 flex-1 flex flex-col">
+              <h2 className="text-lg font-semibold mb-3 group-hover:text-[#004274] transition-colors line-clamp-2">
+                {blog.title}
+              </h2>
 
-        <p className="text-gray-600 text-sm leading-relaxed flex-1 mb-4 line-clamp-3">
-          {renderSnippet(blog.content, 60)}
-        </p>
+              <p className="text-gray-500 text-xs mb-3 flex items-center gap-2">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                {new Date(blog.createdAt).toDateString()}
+              </p>
 
-        <div className="flex items-center text-blue-600 text-sm font-medium group-hover:gap-2 transition-all">
-          Read more 
-          <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </div>
+              <p className="text-gray-600 text-sm leading-relaxed flex-1 mb-4 line-clamp-3">
+                {renderSnippet(blog.content, 60)}
+              </p>
+
+              <div className="flex items-center text-blue-600 text-sm font-medium group-hover:gap-2 transition-all">
+                Read more
+                <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </Link>
+        ))}
       </div>
-    </Link>
-  ))}
-</div>
     </div>
   );
 }
