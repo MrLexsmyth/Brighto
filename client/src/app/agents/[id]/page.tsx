@@ -16,7 +16,14 @@ interface Property {
   price?: number;
   pricePerNight?: number;
   type: string;
-  location: string;
+  location: {
+  address?: string;
+  city?: string;
+  state?: string;
+  area?: string;
+  coordinates?: number[];
+};
+
   images: string[];
 }
 
@@ -60,7 +67,7 @@ export default function AgentDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50/20 to-slate-50 flex items-center justify-center">
+      <div className="min-h-screen mt-12 bg-gradient-to-br from-slate-50 via-amber-50/20 to-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-slate-600 font-medium text-lg">Loading agent details...</p>
@@ -90,7 +97,7 @@ export default function AgentDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50/20 to-slate-50">
+    <div className="mt-12 min-h-screen bg-gradient-to-br from-slate-50 via-amber-50/20 to-slate-50">
       {/* Hero Section */}
       <div className="relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDE2aDRWMTJoLTR2NHptMCA4aDRWMjBoLTR2NHptMCA4aDRWMjhoLTR2NHptMCA4aDRWMzZoLTR2NHptLTggMGg0VjM2aC00djR6bTAtOGg0VjI4aC00djR6bTAtOGg0VjIwaC00djR6bTAtOGg0VjEyaC00djR6bS04IDhoNFYyMGgtNHY0em0wIDhoNFYyOGgtNHY0em0wIDhoNFYzNmgtNHY0eiIvPjwvZz48L2c+PC9zdmc+')] opacity-30"></div>
@@ -313,7 +320,11 @@ export default function AgentDetailPage() {
             </h3>
             <p className="text-sm sm:text-base text-slate-600 mb-4 flex items-center gap-2">
               <MapPin className="w-4 h-4 flex-shrink-0" />
-              <span className="line-clamp-1">{prop.location}</span>
+            <span className="line-clamp-1">
+  {[prop.location?.address, prop.location?.city, prop.location?.state]
+    .filter(Boolean)
+    .join(", ")}
+</span>
             </p>
             <div className="flex items-center justify-between pt-4 border-t border-slate-200">
               {prop.price && (

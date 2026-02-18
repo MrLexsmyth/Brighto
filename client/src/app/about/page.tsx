@@ -30,7 +30,7 @@ const containerVariants: Variants = {
 
 const AboutPage = () => {
   return (
-    <section>
+    <section className='mt-12'>
       {/* ---------- Hero Section ---------- */}
       <motion.div
         initial="hidden"
