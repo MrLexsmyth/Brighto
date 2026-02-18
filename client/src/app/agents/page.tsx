@@ -319,7 +319,7 @@ export default function PublicAgents() {
             className="flex flex-wrap gap-4 justify-center"
           >
             <Link
-              href="/estate/listings"
+              href="/listings"
               className="inline-block px-8 py-4 bg-amber-500 text-white rounded-xl font-semibold hover:bg-amber-600 transition-all shadow-lg hover:shadow-xl active:scale-95"
             >
               Browse Properties
