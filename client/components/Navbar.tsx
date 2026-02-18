@@ -38,7 +38,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={` w-full fixed top-0 z-50 shadow-md transition-colors duration-300 ${
+      className={` w-full fixed top-0 z-50 shadow-md transition-colors duration-300 mb-12 ${
         scrolled ? "text-white bg-[#004274]" : "text-white "
       }`}
     >

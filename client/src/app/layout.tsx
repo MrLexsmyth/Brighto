@@ -58,8 +58,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
-  
+ 
   return (
     <html lang="en" data-scroll-behavior="smooth" className={poppins.className}>
       <head>
@@ -69,9 +68,9 @@ export default function RootLayout({
          
         <Script src="https://cdn.lordicon.com/lordicon.js" strategy="beforeInteractive" />
         <Navbar  />
-        <main className="">
-          {children}
-        </main>
+              <main className="">
+                 {children}
+              </main>
         <Footer />
       </body>
     </html>

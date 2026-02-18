@@ -29,11 +29,11 @@ body {
 }
 
 .hero-text h1 {
-margin-top: 3rem;
-font-size: 2rem;
-font-weight: 700;
-line-height: 35px;
-color: rgb(25, 40, 57);
+  margin-top: 3rem;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 35px;
+  color: rgb(25, 40, 57);
   margin-bottom: 2rem;
 }
 
@@ -70,7 +70,6 @@ color: rgb(101, 101, 101);
     font-size: 1.1rem;
   }
 }
-
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -110,7 +109,6 @@ color: rgb(101, 101, 101);
 .section-heading {
   text-align: center;
   font-weight: 400;
-  
   line-height: 1.5;
   font-size: 18px;
   max-width: 1000px;
@@ -118,7 +116,7 @@ color: rgb(101, 101, 101);
   padding: 0 1.5rem;
 }
 
-/* Responsive font size */
+
 @media (min-width: 640px) {
   .section-heading {
     font-size: 26px;

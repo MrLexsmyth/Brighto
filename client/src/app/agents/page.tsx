@@ -86,7 +86,7 @@ export default function PublicAgents() {
 
   if (error) {
     return (
-      <div className="min-h-screen mt-12 bg-gradient-to-br from-slate-50 via-amber-50/20 to-slate-50 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50/20 to-slate-50 flex items-center justify-center p-6">
         <div className="text-center bg-white rounded-2xl p-12 shadow-lg border border-red-200 max-w-md">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-3xl">⚠️</span>
