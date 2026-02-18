@@ -52,7 +52,11 @@ useEffect(() => {
           <h1 className="text-[160px] sm:text-[200px] font-black leading-none text-transparent bg-clip-text bg-gradient-to-br from-[#004274]/20 to-[#00aeff]/20 select-none">
             404
           </h1>
-          <div className="absolute inset-0 flex items-center justify-center">
+         
+          </div>
+        </div>
+
+         <div className="absolute inset-0 flex items-center justify-center">
             {/* Lottie Animation */}
             <div className="w-48 h-48 sm:w-64 sm:h-64">
               <DotLottieReact
@@ -61,8 +65,6 @@ useEffect(() => {
   autoplay
 />
             </div>
-          </div>
-        </div>
 
         {/* Message */}
         <div className="mb-8">
