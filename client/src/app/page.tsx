@@ -88,25 +88,26 @@ export default function Home() {
   <h1 className="text-center text-2xl sm:text-3xl font-bold mb-6 uppercase text-black">
     Our Affiliates
   </h1>
-  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 justify-items-center items-center">
-    {affiliates.map((affi, index) => (
-      <motion.div
-        key={index}
+ <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 justify-items-center items-center">
+  {affiliates.map((affi, index) => (
+    <motion.div
+      key={index}
       initial="hidden"
-  whileInView="visible"
-  viewport={{ once: true, amount: 0.2 }}
-  variants={fadeInUp}
-      >
-        <Image
-          src={affi.photo}
-          alt=""
-          width={130}
-          height={130}
-          className="w-[130px] h-[130px] object-fill rounded-md"
-        />
-      </motion.div>
-    ))}
-  </div>
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={fadeInUp}
+      className="relative w-[130px] h-[130px]"
+    >
+      <Image
+        src={affi.photo}
+        alt="affiliate"
+        fill
+        className="object-cover rounded-md"
+      />
+    </motion.div>
+  ))}
+</div>
+
 </div>
 
 

@@ -86,7 +86,7 @@ export default function PublicAgents() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50/20 to-slate-50 flex items-center justify-center p-6">
+      <div className="min-h-screen mt-12 bg-gradient-to-br from-slate-50 via-amber-50/20 to-slate-50 flex items-center justify-center p-6">
         <div className="text-center bg-white rounded-2xl p-12 shadow-lg border border-red-200 max-w-md">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-3xl">⚠️</span>
@@ -106,7 +106,7 @@ export default function PublicAgents() {
 
   if (agents.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50/20 to-slate-50 flex items-center justify-center p-6">
+      <div className="min-h-screen mt-12 bg-gradient-to-br from-slate-50 via-amber-50/20 to-slate-50 flex items-center justify-center p-6">
         <div className="text-center bg-white rounded-2xl p-12 shadow-lg border border-slate-200 max-w-md">
           <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Building2 className="w-8 h-8 text-slate-400" />
@@ -119,7 +119,7 @@ export default function PublicAgents() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50/20 to-slate-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50/20 to-slate-50 mt-12">
       {/* Hero Header */}
       <div className="relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDE2aDRWMTJoLTR2NHptMCA4aDRWMjBoLTR2NHptMCA4aDRWMjhoLTR2NHptMCA4aDRWMzZoLTR2NHptLTggMGg0VjM2aC00djR6bTAtOGg0VjI4aC00djR6bTAtOGg0VjIwaC00djR6bTAtOGg0VjEyaC00djR6bS04IDhoNFYyMGgtNHY0em0wIDhoNFYyOGgtNHY0em0wIDhoNFYzNmgtNHY0eiIvPjwvZz48L2c+PC9zdmc+')] opacity-30"></div>

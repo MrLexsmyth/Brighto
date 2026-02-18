@@ -61,7 +61,7 @@ export default function RootLayout({
 
   
   return (
-    <html lang="en" className={poppins.className}>
+    <html lang="en" data-scroll-behavior="smooth" className={poppins.className}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
