@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+// import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { Home, Search, ArrowLeft, MapPin } from "lucide-react";
 
 export default function NotFound() {
@@ -49,13 +49,9 @@ useEffect(() => {
       <div className="relative z-10 max-w-2xl w-full text-center">
         {/* 404 Text */}
         <div className="relative mb-4">
-             <div className="w-48 h-48 sm:w-64 sm:h-64">
-              <DotLottieReact
-  src="/found.json"
-  loop
-  autoplay
-/>
-            </div>
+          <h1 className="text-[160px] sm:text-[200px] font-black leading-none text-transparent bg-clip-text bg-gradient-to-br from-[#004274]/20 to-[#00aeff]/20 select-none">
+            404
+          </h1>
           {/* <div className="absolute inset-0 flex items-center justify-center">
             
             <div className="w-48 h-48 sm:w-64 sm:h-64">
