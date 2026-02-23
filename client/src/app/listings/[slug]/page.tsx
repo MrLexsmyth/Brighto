@@ -207,9 +207,9 @@ export default function PublicPropertyPage() {
 </Head>
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 mt-4">
+    <div className="max-w-7xl mx-auto px-4 py-10 mt-12">
       {/* Title and Location */}
-      <div className="grid gap-2 md:flex md:justify-between md:items-start mb-4">
+      <div className="grid gap-2 md:flex md:justify-between md:items-start mb-4 mt-4">
         <div>
           <h1 className="font-semibold text-xl sm:text-2xl md:text-3xl lg:text-3xl mb-2">
             {property.title}
