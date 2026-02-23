@@ -77,9 +77,31 @@ export default function PropertyCarousel() {
 
   if (loading) {
     return (
-      <p className="py-10 text-center text-gray-600 dark:text-gray-300">
-        Loading properties...
-      </p>
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 py-10">
+  {[...Array(6)].map((_, index) => (
+    <div
+      key={index}
+      className="animate-pulse rounded-2xl overflow-hidden shadow-md bg-white dark:bg-gray-800"
+    >
+      {/* Image Skeleton */}
+      <div className="h-48 w-full bg-gray-300 dark:bg-gray-700"></div>
+
+      <div className="p-4 space-y-4">
+        {/* Title */}
+        <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+
+        {/* Price */}
+        <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
+
+        {/* Location */}
+        <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded w-2/3"></div>
+
+        {/* Button */}
+        <div className="h-10 bg-gray-300 dark:bg-gray-700 rounded-lg w-full mt-4"></div>
+      </div>
+    </div>
+  ))}
+</div>
     )
   }
 
