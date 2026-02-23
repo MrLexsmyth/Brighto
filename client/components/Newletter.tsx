@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import NewsletterImage from "../public/newsletter.jpg";
 
@@ -6,7 +5,7 @@ const Newsletter = () => {
   return (
     <section className="w-full flex flex-col md:flex-row">
       
-      {/* LEFT CONTENT */}
+      
       <div className="w-full md:w-1/2 flex flex-col justify-center px-6 py-12 md:px-12 bg-darkblue">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
           Subscribe to Our Newsletter
@@ -29,7 +28,7 @@ const Newsletter = () => {
         </div>
       </div>
 
-      {/* RIGHT IMAGE */}
+   
       <div className="w-full md:w-1/2 relative min-h-[250px] md:min-h-[400px]">
         <Image
           src={NewsletterImage}
