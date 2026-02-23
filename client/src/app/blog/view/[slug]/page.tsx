@@ -33,12 +33,12 @@ export default async function BlogSlugPage({
   if (!blog) return notFound();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 mt-12">
       {/* Back button */}
-      <div className="max-w-4xl mx-auto px-4 pt-8">
+      <div className="max-w-4xl mx-auto px-4 pt-8 mt-6">
         <Link 
           href="/estate/blog" 
-          className="inline-flex items-center text-[#004274] hover:text-[#004274] transition-colors mb-8"
+          className="inline-flex items-center text-[#004274] hover:text-[#004274] transition-colors "
         >
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
