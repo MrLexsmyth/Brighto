@@ -37,7 +37,7 @@ export default async function BlogSlugPage({
       {/* Back button */}
       <div className="max-w-4xl mx-auto px-4 pt-8 mt-6">
         <Link 
-          href="/estate/blog" 
+          href="/blog" 
           className="inline-flex items-center text-[#004274] hover:text-[#004274] transition-colors "
         >
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
