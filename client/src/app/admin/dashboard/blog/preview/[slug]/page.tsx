@@ -66,8 +66,9 @@ export default function AdminBlogPreview() {
       <div className="flex gap-4 text-sm text-gray-500 mb-6">
         <span>Status: {blog.status}</span>
         <span>
-          Created: {new Date(blog.createdAt).toLocaleDateString()}
+          Created:  {new Date(blog.createdAt).toLocaleDateString("en-GB")}
         </span>
+       
       </div>
 
       {/* BLOG CONTENT */}

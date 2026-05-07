@@ -1,17 +1,15 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import api from "../../../../../utils/axios"; // adjust path if needed
+import api from "../../../../../utils/axios";
 import Link from "next/link";
-
-
 
 interface Blog {
   _id: string;
   title: string;
   slug: string;
   status: "draft" | "published";
-  category?: string;
+  categories?: string[];
   tags?: string[];
   createdAt: string;
   updatedAt: string;
@@ -23,7 +21,8 @@ export default function AdminBlogList() {
 
   const fetchBlogs = async () => {
     try {
-      const res = await api.get("/admin/blogs"); // your admin API route
+      const res = await api.get("/admin/blogs");
+
       setBlogs(res.data);
     } catch (err) {
       console.error("Failed to fetch blogs", err);
@@ -36,15 +35,30 @@ export default function AdminBlogList() {
     fetchBlogs();
   }, []);
 
-  if (loading) return <p className="p-10 text-center">Loading blogs...</p>;
+  if (loading) {
+    return (
+      <p className="p-10 text-center">
+        Loading blogs...
+      </p>
+    );
+  }
 
-  if (!blogs.length)
-    return <p className="p-10 text-center">No blogs found.</p>;
+  if (!blogs.length) {
+    return (
+      <p className="p-10 text-center">
+        No blogs found.
+      </p>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
+      {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Admin Blogs</h1>
+        <h1 className="text-2xl font-bold">
+          Admin Blogs
+        </h1>
+
         <Link
           href="/admin/dashboard/blog/new"
           className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
@@ -53,49 +67,89 @@ export default function AdminBlogList() {
         </Link>
       </div>
 
-      <table className="w-full border-collapse border border-gray-300 dark:border-gray-700">
-        <thead>
-          <tr className="bg-gray-100 dark:bg-gray-800">
-            <th className="border p-2 text-left">Title</th>
-            <th className="border p-2 text-left">Status</th>
-            <th className="border p-2 text-left">Category</th>
-            <th className="border p-2 text-left">Created At</th>
-            <th className="border p-2 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {blogs.map((blog) => (
-            <tr key={blog._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-              <td className="border p-2">
-  <Link
-    href={`/admin/dashboard/blog/preview/${blog.slug}`}
-    className="font-medium text-blue-600 hover:underline"
-  >
-    {blog.title}
-  </Link>
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse border border-gray-300 dark:border-gray-700">
+          <thead>
+            <tr className="bg-gray-100 dark:bg-gray-800">
+              <th className="border p-3 text-left">
+                Title
+              </th>
+
+              <th className="border p-3 text-left">
+                Status
+              </th>
+
+              <th className="border p-3 text-left">
+                Categories
+              </th>
+
+              <th className="border p-3 text-left">
+                Created At
+              </th>
+
+              <th className="border p-3 text-left">
+                Actions
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {blogs.map((blog) => (
+              <tr
+                key={blog._id}
+                className="hover:bg-gray-50 dark:hover:bg-gray-700"
+              >
+                {/* Title */}
+                <td className="border p-3">
+                  <Link
+                    href={`/admin/dashboard/blog/preview/${blog.slug}`}
+                    className="font-medium text-blue-600 hover:underline"
+                  >
+                    {blog.title}
+                  </Link>
+                </td>
+
+                {/* Status */}
+                <td className="border p-3 capitalize">
+                  {blog.status}
+                </td>
+
+                {/* Categories */}
+                <td className="border p-3">
+                  {blog.categories && blog.categories.length > 0
+                    ? blog.categories.join(", ")
+                    : "No Category"}
+                </td>
+
+                {/* Date */}
+                <td className="border p-3">
+  {new Date(blog.createdAt).toLocaleDateString("en-GB")}
 </td>
 
-              <td className="border p-2 capitalize">{blog.status}</td>
-              <td className="border p-2">{blog.category }</td>
-              <td className="border p-2">{new Date(blog.createdAt).toLocaleDateString()}</td>
-              <td className="border p-2 space-x-2">
-                <Link
-                  href={`/admin/blogs/edit/${blog.slug}`}
-                  className="text-blue-600 hover:underline"
-                >
-                  Edit
-                </Link>
-                <button
-                  className="text-red-600 hover:underline"
-                  onClick={() => alert("Delete functionality coming soon")}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                {/* Actions */}
+                <td className="border p-3 space-x-3">
+                  <Link
+                    href={`/admin/blogs/edit/${blog.slug}`}
+                    className="text-blue-600 hover:underline"
+                  >
+                    Edit
+                  </Link>
+
+                  <button
+                    className="text-red-600 hover:underline"
+                    onClick={() =>
+                      alert("Delete functionality coming soon")
+                    }
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
