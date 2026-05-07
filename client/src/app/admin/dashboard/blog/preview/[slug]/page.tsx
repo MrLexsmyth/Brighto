@@ -54,7 +54,7 @@ export default function AdminBlogPreview() {
          <Image
   src={blog.images[0]}
   alt={blog.title}
-  width={900}       
+  width={500}       
   height={500}        
   className="w-full h-auto rounded-md object-cover"
   priority
