@@ -5,7 +5,7 @@ import { motion, Variants } from 'framer-motion';
 import PropertyCarousel from '../../components/PropertyCarousel';
 import Explore from '../../components/Explore';
 import Newletter from '../../components/Newletter';
-import Hero from '../../components/Hero';
+import HeroSequence from '../../components/HeroSequence';
 import Anima from '../../components/Anima';
 import FAQComponent from '../../components/FAQ';
 import PropertyCarouselSkeleton from "../../components/PropertyCarouselSkeleton";
@@ -47,15 +47,7 @@ export default function Home() {
   return (
     <div >
       {/* Hero Section */}
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        variants={fadeInUp}
-      >
-        <Hero />
-       
-      </motion.div>
+      <HeroSequence />
        {/* Hero Text */}
       <motion.div
         className="hero-text text-center px-4 mt-4"
