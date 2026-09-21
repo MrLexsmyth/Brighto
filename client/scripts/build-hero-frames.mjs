@@ -25,7 +25,10 @@ const DESKTOP_DIR = path.join(OUTPUT_DIR, 'desktop');
 const MOBILE_DIR = path.join(OUTPUT_DIR, 'mobile');
 const MANIFEST_PATH = path.join(CLIENT_ROOT, 'components', 'hero-sequence-manifest.json');
 
-const DESKTOP_TARGET_COUNT = 96;
+// Desktop keeps every deduped unique frame (no further thinning) so the
+// scrub stays as smooth as the original — dedup alone still saves bytes
+// over the source JPEGs. Mobile is where the real data savings come from.
+const DESKTOP_TARGET_COUNT = Infinity;
 const DESKTOP_QUALITY = 80;
 
 const MOBILE_TARGET_COUNT = 48;
@@ -184,13 +187,20 @@ async function main() {
   console.log(`\nPoster: ${formatBytes(posterBuffer.length)}`);
   console.log(`\nManifest written to ${path.relative(CLIENT_ROOT, MANIFEST_PATH)}`);
 
-  const before = sourceTotalSize;
-  const after = desktop.totalSize + mobile.totalSize + posterBuffer.length;
+  console.log('\n--- Per-visitor payload (each visitor downloads exactly one set + the poster) ---');
+  const mobileVisitorBytes = mobile.totalSize + posterBuffer.length;
+  const desktopVisitorBytes = desktop.totalSize + posterBuffer.length;
   console.log(
-    `\nTotal shipped (desktop + mobile + poster): ${formatBytes(after)} vs original ${formatBytes(before)} (${(
-      (1 - after / before) *
+    `Mobile visitor:  ${formatBytes(mobileVisitorBytes)} (vs ${formatBytes(sourceTotalSize)} original, ${(
+      (1 - mobileVisitorBytes / sourceTotalSize) *
       100
-    ).toFixed(0)}% smaller). A single mobile visitor only ever downloads the mobile set + poster.`
+    ).toFixed(0)}% smaller)`
+  );
+  console.log(
+    `Desktop visitor: ${formatBytes(desktopVisitorBytes)} (vs ${formatBytes(sourceTotalSize)} original, ${(
+      (1 - desktopVisitorBytes / sourceTotalSize) *
+      100
+    ).toFixed(0)}% smaller)`
   );
 }
 
