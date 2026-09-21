@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import api from "../../../../utils/axios";
 import ShareButton from "../../../../components/Share";
-import PropertyMap from "../../../../components/PropertyMap";
+import PropertyMap from "../../../../components/PropertyMapClient";
+// import PropertyMap from "../../../../components/PropertyMap";
 import { MapPin, BedDouble, Bath } from "lucide-react";
 
 interface Agent {

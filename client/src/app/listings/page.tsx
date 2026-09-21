@@ -1,239 +1,248 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import api from '../../../utils/axios'
-import { motion } from 'framer-motion'
-import { Search, SlidersHorizontal, MapPin, Bed, Home, Ruler, Bath } from 'lucide-react'
+import { useEffect, useMemo, useState } from "react";
+import api from "../../../utils/axios";
+import { motion, useReducedMotion } from "framer-motion";
+import { Search, X, Home as HomeIcon, RotateCcw } from "lucide-react";
 
+import PropertyCard, { Property } from "../../../components/PropertyCard";
+import PropertyCardSkeleton from "../../../components/PropertyCardSkeleton";
+import ListingsFilters, {
+  DEFAULT_FILTERS,
+  FilterState,
+  PRICE_BANDS,
+  isFilterActive,
+} from "../../../components/ListingsFilters";
 
+const PAGE_SIZE = 9;
 
-interface Property {
-  _id: string
-  title: string
-  description: string
-  type: string
-  price?: number
-  size?: string;
-  pricePerNight?: number
-  category: string
- location: {
-    address: string;
-    city: string;
-    state: string;
-    area?: string;
-    coordinates: {
-      lat: number;
-      lng: number;
-    };
-  };
-  bedrooms?: number
-   bathrooms?: number;
-  images: string[]
-  slug: string
+function getPrice(property: Property) {
+  return property.category === "shortlet"
+    ? property.pricePerNight ?? property.price
+    : property.price ?? property.pricePerNight;
 }
 
-const capitalize = (text: string) =>
-  text.charAt(0).toUpperCase() + text.slice(1)
-
 export default function ListingsPage() {
-  const [properties, setProperties] = useState<Property[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState('')
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const res = await api.get('/properties')
-        setProperties(res.data)
+        const res = await api.get("/properties");
+        setProperties(res.data);
       } catch (err) {
-        console.error('Failed to load properties', err)
+        console.error("Failed to load properties", err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
+    };
+
+    fetchProperties();
+  }, []);
+
+  const typeOptions = useMemo(
+    () => Array.from(new Set(properties.map((p) => p.type).filter(Boolean))).sort(),
+    [properties]
+  );
+
+  const locationOptions = useMemo(
+    () =>
+      Array.from(
+        new Set(properties.map((p) => p.location.area || p.location.city).filter(Boolean))
+      ).sort() as string[],
+    [properties]
+  );
+
+  const filteredProperties = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+    const band = PRICE_BANDS.find((b) => b.key === filters.priceBand);
+
+    const filtered = properties.filter((property) => {
+      if (term) {
+        const haystack = [
+          property.title,
+          property.type,
+          property.location.area,
+          property.location.city,
+          property.location.state,
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+        if (!haystack.includes(term)) return false;
+      }
+
+      if (filters.category !== "all" && property.category !== filters.category) return false;
+      if (filters.type !== "all" && property.type !== filters.type) return false;
+
+      if (
+        filters.location !== "all" &&
+        (property.location.area || property.location.city) !== filters.location
+      )
+        return false;
+
+      if (filters.bedrooms !== "all" && (property.bedrooms ?? 0) < Number(filters.bedrooms))
+        return false;
+
+      if (band && band.key !== "all") {
+        const price = getPrice(property);
+        if (price == null) return false;
+        if (band.min !== undefined && price < band.min) return false;
+        if (band.max !== undefined && price > band.max) return false;
+      }
+
+      return true;
+    });
+
+    if (filters.sort === "newest") {
+      return [...filtered].sort(
+        (a, b) =>
+          new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime()
+      );
     }
 
-    fetchProperties()
-  }, [])
+    const withPrice = filtered.filter((p) => getPrice(p) != null);
+    const withoutPrice = filtered.filter((p) => getPrice(p) == null);
+    withPrice.sort((a, b) => {
+      const diff = (getPrice(a) ?? 0) - (getPrice(b) ?? 0);
+      return filters.sort === "price-asc" ? diff : -diff;
+    });
+    return [...withPrice, ...withoutPrice];
+  }, [properties, searchTerm, filters]);
 
-  const filteredProperties = properties.filter(property =>
-    property.title.toLowerCase().includes(searchTerm.toLowerCase()) 
-   
-  )
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [searchTerm, filters]);
 
-  if (loading) {
-    return (
-      <div className=" mt-8 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-        <div className="mx-auto max-w-7xl px-4 py-20">
-          <div className="flex items-center justify-center">
-            <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-red-600"></div>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  const visibleProperties = filteredProperties.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredProperties.length;
+  const filtersActive = isFilterActive(filters) || searchTerm.trim().length > 0;
+
+  const resetAll = () => {
+    setFilters(DEFAULT_FILTERS);
+    setSearchTerm("");
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-[#192839] to-[#2a3f5f] dark:from-gray-800 dark:to-gray-900">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:py-20">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Header */}
+      <div className="bg-[#004274]">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:py-12">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
+            transition={{ duration: 0.5 }}
           >
-        
-         
-                <h1 className="mb-4 text-4xl font-bold sm:text-4xl lg:text-5xl text-gray-300">
-                  Explore premium properties across Nigeria
-                </h1>
-              
-          
+            <h1 className="mb-1 text-2xl font-bold text-white sm:text-3xl">
+              Explore properties across Nigeria
+            </h1>
+            <p className="mb-6 text-sm text-blue-100 sm:text-base">
+              Verified listings for sale, rent, and short let.
+            </p>
 
-            {/* Search Bar */}
-   <div className="mx-auto max-w-3xl">
-  <div className="relative">
-    <div className="absolute left-5 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 bg-gradient-to-br from-red-500 to-orange-500 rounded-full">
-      <Search className="h-5 w-5 text-white" />
-    </div>
-    <input
-      type="text"
-      placeholder="Search by location, title, or property type..."
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      className="w-full rounded-full bg-white py-6 pl-20 pr-6 text-gray-900 text-lg shadow-2xl outline-none transition-all border-2 border-gray-100 focus:border-red-500 focus:shadow-red-500/20 hover:border-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-700 placeholder:text-gray-400"
-    />
-    {searchTerm && (
-      <button
-        onClick={() => setSearchTerm('')}
-        className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-      >
-        ✕
-      </button>
-    )}
-  </div>
-</div>
+            <div className="relative max-w-2xl">
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search by location, title, or property type"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full rounded-xl bg-white dark:bg-gray-800 py-3.5 pl-12 pr-10 text-sm text-gray-900 dark:text-white shadow-sm outline-none ring-1 ring-transparent transition-shadow focus:ring-2 focus:ring-[#00aeff] placeholder:text-gray-400 dark:placeholder:text-gray-500"
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm("")}
+                  aria-label="Clear search"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Listings Section */}
-      <div className="mx-auto max-w-7xl px-4 py-12">
-        {/* Filter Bar */}
-        <div className="mb-8 flex items-center justify-between">
-          <p className="text-gray-600 dark:text-gray-300">
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {filteredProperties.length}
-            </span>{' '}
-            {filteredProperties.length === 1 ? 'property' : 'properties'} found
-          </p>
-          <button className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700">
-            <SlidersHorizontal className="h-4 w-4" />
-            Filters
-          </button>
+      {/* Body */}
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:py-8">
+        <div className="mb-6 rounded-2xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-sm sm:p-5">
+          <ListingsFilters
+            filters={filters}
+            onChange={(next) => setFilters((prev) => ({ ...prev, ...next }))}
+            onReset={resetAll}
+            typeOptions={typeOptions}
+            locationOptions={locationOptions}
+            resultCount={filteredProperties.length}
+            sheetOpen={sheetOpen}
+            onSheetOpenChange={setSheetOpen}
+          />
         </div>
 
-        {filteredProperties.length === 0 ? (
-          <div className="rounded-2xl bg-white p-12 text-center shadow-lg dark:bg-gray-800">
-            <Home className="mx-auto mb-4 h-16 w-16 text-gray-400" />
-            <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
-              No properties found
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Try adjusting your search criteria
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredProperties.map((property, index) => (
-              <motion.div
-                key={property._id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                whileHover={{ y: -8 }}
-                className="group overflow-hidden rounded-2xl bg-white shadow-lg transition-all hover:shadow-2xl dark:bg-gray-800"
-              >
-                <Link href={`/listings/${property.slug}`} className="block">
-                  {/* Image */}
-                  <div className="relative h-64 w-full overflow-hidden">
-                    <Image
-                      src={property.images?.[0]}
-                      alt={property.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      priority={index < 4}
-                    />
-                    {/* Category Badge */}
-                    <div className="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-gray-900 backdrop-blur-sm">
-                      {capitalize(property.category)}
-                    </div>
-                  </div>
+        <p className="mb-4 text-sm text-gray-600 dark:text-gray-300">
+          <span className="font-semibold text-gray-900 dark:text-white">{filteredProperties.length}</span>{" "}
+          {filteredProperties.length === 1 ? "property" : "properties"} found
+        </p>
 
-                  {/* Content */}
-                  <div className="p-5">
-                    {/* Title */}
-                    <h2 className="mb-2 text-lg font-bold text-gray-900 line-clamp-2 dark:text-white">
-                      {property.title}
-                    </h2>
-
-                    {/* Location */}
-                    <div className="mb-3 flex items-center gap-1 text-sm text-gray-600 dark:text-gray-300">
-                      <MapPin className="h-4 w-4" />
-                      <span>{(property.location.area || property.location.address)}</span>
-                    </div>
-                    <div className='flex gap-4'>
-                         {/* Bedrooms (if available) */}
-                    {property.bedrooms && (
-                      <div className="mb-3 flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
-                       {property.bedrooms} <Bed className="h-4 w-4" />
-                       
-                      </div>
-                    )}
-                      {/* Bathrooms (if available) */}
-                      {property.bathrooms && (
-                        <div className="mb-3 flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
-                         {property.bathrooms} <Bath className="h-4 w-4" />
-                         
-                        </div>
-                      )}
-                    </div>
-                 
-
-                    {/* Size (if available) */}
-                    {property.size && (
-                      <div className="mb-3 flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
-                        <Ruler className="h-4 w-4" />
-                        <span>{property.size}m²</span>
-                      </div>
-                    )}
-
-                    {/* Price */}
-                    <div className="flex items-center justify-between border-t border-gray-200 pt-3 dark:border-gray-700">
-                      <p className="text-xl font-bold text-red-600">
-                        {property.price
-                          ? `₦${property.price.toLocaleString()}`
-                          : property.pricePerNight
-                          ? `₦${property.pricePerNight.toLocaleString()}`
-                          : 'Contact'}
-                      </p>
-                      {property.pricePerNight && (
-                        <span className="text-sm text-gray-500 dark:text-gray-400">
-                          / night
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
+        {loading ? (
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <PropertyCardSkeleton key={i} />
             ))}
           </div>
+        ) : filteredProperties.length === 0 ? (
+          <div className="flex flex-col items-center rounded-2xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 p-12 text-center shadow-sm">
+            <HomeIcon className="mb-4 h-12 w-12 text-gray-300 dark:text-gray-600" />
+            <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+              No properties match your search
+            </h3>
+            <p className="mb-5 max-w-sm text-sm text-gray-500 dark:text-gray-400">
+              Try a different location, property type, or price range.
+            </p>
+            {filtersActive && (
+              <button
+                onClick={resetAll}
+                className="flex items-center gap-2 rounded-xl bg-[#004274] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#003060]"
+              >
+                <RotateCcw className="h-4 w-4" />
+                Reset filters
+              </button>
+            )}
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {visibleProperties.map((property, index) => (
+                <PropertyCard
+                  key={property._id}
+                  property={property}
+                  index={index}
+                  priority={index < 3}
+                />
+              ))}
+            </div>
+
+            {hasMore && (
+              <div className="mt-8 flex flex-col items-center gap-2">
+                <button
+                  onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+                  className="rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 px-6 py-3 text-sm font-semibold text-gray-700 dark:text-gray-200 shadow-sm transition-colors hover:border-[#004274] hover:text-[#004274] dark:hover:border-[#4db8ff] dark:hover:text-[#4db8ff]"
+                >
+                  Load more properties
+                </button>
+                <p className="text-xs text-gray-400 dark:text-gray-500">
+                  Showing {visibleProperties.length} of {filteredProperties.length}
+                </p>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
-  )
+  );
 }
