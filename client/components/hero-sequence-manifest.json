@@ -1,0 +1,20 @@
+{
+  "generatedAt": "2026-09-21T11:11:23.532Z",
+  "source": {
+    "frames": 240,
+    "uniqueFrames": 194
+  },
+  "desktop": {
+    "dir": "desktop",
+    "count": 96,
+    "width": 720,
+    "height": 1280
+  },
+  "mobile": {
+    "dir": "mobile",
+    "count": 48,
+    "width": 480,
+    "height": 853
+  },
+  "poster": "poster.webp"
+}
